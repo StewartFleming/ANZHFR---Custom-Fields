@@ -67,6 +67,11 @@
                 <i class="fa fa-download"></i> <span>Export</span>
             </a>
         </li>
+        <li class="@ViewBag.MenuCutomFields">
+            <a href="/customfields">
+                <i class="fa fa-star-o"></i> <span>Custom Fields</span>
+            </a>
+        </li>
     }
 
     @if (HttpContext.Current.User.GetUserInfo().AccessLevel == (int)AccessLevel.FullAccess)
