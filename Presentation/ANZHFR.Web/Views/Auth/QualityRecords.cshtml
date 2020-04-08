@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "QualityRecords";
+}
+
+
+<form action="#" method="post">
+    <h2>Quality Records</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="editor-label">Hospital: </div>
+            <div class="editor-field">
+                @Html.DropDownList("HospitalID", (List<SelectListItem>)ViewBag.HospitalList, (string)ViewBag.HospitalID, new { @id = "hospitalID", @placeholder = "hospital" })
+            </div>
+            <div class="editor-label">Year: </div>
+            <div class="editor-field">
+                @Html.TextBox("Year", (string)ViewBag.Year)
+            </div>
+
+            <div class="editor-label">Record Count: </div>
+            <div class="editor-field">
+                @Html.TextBox("PatientCount", (string)ViewBag.RecordCount)
+            </div>
+            <div class="editor-label">Quality Count: </div>
+            <div class="editor-field">
+                @Html.TextBox("QualityCount", (string)ViewBag.QualityCount)
+            </div>
+            <div>
+                <h1>@ViewBag.CreateResult</h1>
+            </div>
+            <div class="buttons-box">
+                <input type="submit" name="submit" value="Update" class="btn-blue btn-submit" id="Update" />
+                <input type="submit" name="submit" value="Create" class="btn-common btn-submit" id="Create" />
+            </div>
+        </div>
+    </div>
+</form>

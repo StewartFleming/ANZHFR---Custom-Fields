@@ -1,0 +1,31 @@
+﻿@model ANZHFR.Web.Models.HospitalModel
+
+@{
+    ViewBag.Title = "Add hospital";
+}
+
+@Html.Partial("_CreateOrUpdate", Model)
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        /**********************************************************************/
+        jQuery("#cancel-btn").on("click", function (event) {
+            history.go(-1);
+        });
+
+        /**********************************************************************/
+        jQuery("#delete-btn").on("click", function (event) {
+            event.preventDefault();
+            jQuery("#DeleteItemId").val(jQuery(this).attr("item-id"));
+        });
+
+        /**********************************************************************/
+        jQuery("#con-delete-btn").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#FilterSearch").val() };
+            window.location.href = "/hospital/delete/" + jQuery("#DeleteItemId").val() + "?" + EncodeQueryData(data);
+        });
+    </script>
+}

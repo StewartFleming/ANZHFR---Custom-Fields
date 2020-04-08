@@ -1,0 +1,165 @@
+﻿@model ANZHFR.Web.Models.UserModel
+
+@using ANZHFR.Web.ExtensionMethods
+
+@{
+    ANZHFR.Web.Models.UserInfoModel CurrentUser = HttpContext.Current.User.GetUserInfo();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            @using (Html.BeginForm())
+            {
+
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.UserID)
+                @Html.HiddenFor(model => model.Page)
+                @Html.HiddenFor(model => model.FilterSearchName)
+
+                <div class="field-validation-error">@Model.ErrorMessage</div>
+                <div class="editor label-width100 form-width400">
+                    @if (Model.UserID > 0)
+                {
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Email)
+                        </div>
+
+                        <div class="editor-field">
+                            <input type="text" value="@Model.Email" name="Email" id="Email" readonly="readonly" />
+                        </div>
+
+                        @Html.HiddenFor(model => model.Password)
+                        @Html.HiddenFor(model => model.ConfirmPassword)
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Password1)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Password1)
+                            @Html.DisplayFor(model => model.Password)
+                            @Html.DisplayFor(model => model.ConfirmPassword)
+                            @Html.ValidationMessageFor(model => model.Password1)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.ConfirmPassword1)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ConfirmPassword1)
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword1)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Email)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Email)
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                        <div class="editor-check">
+                            <img id="item-ok" class="item-check" src="/Images/accept.png" />
+                            <img id="item-loading" class="item-check" src="/Images/loading-small.gif" />
+                            <img id="item-failed" class="item-check" src="/Images/cancel.png" />
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Password)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.ConfirmPassword)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.ConfirmPassword)
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                        </div>
+                    }
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.HospitalID)
+                    </div>
+
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.HospitalID, new SelectList(Model.HospitalList, "HospitalID", "HName", Model.HospitalID))
+                        @Html.ValidationMessageFor(model => model.HospitalID)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.FirstName)
+                    </div>
+
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.FirstName)
+                        @Html.ValidationMessageFor(model => model.FirstName)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Surname)
+                    </div>
+
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Surname)
+                        @Html.ValidationMessageFor(model => model.Surname)
+                    </div>
+
+                    @if (CurrentUser.AccessLevel == (int)AccessLevel.FullAccess)
+                    {
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.AccessLevel)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.DropDownListFor(model => model.AccessLevel, new SelectList(Model.AccessLevelList, "AccessLevelsID", "Name", Model.AccessLevel))
+                            @Html.ValidationMessageFor(model => model.AccessLevel)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.ActiveFlag)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.CheckBoxFor(model => model.ActiveFlag)
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.AdminNotes)
+                        </div>
+
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.AdminNotes)
+                            @Html.ValidationMessageFor(model => model.AdminNotes)
+                        </div>
+                    }
+                </div>
+
+                <div class="form-bottom margin-left100">
+                    <input type="submit" value="Save" class="btn btn-success btn-lg" id="save-btn" />
+
+                    @if (CurrentUser.AccessLevel == (int)AccessLevel.FullAccess)
+                    {
+                        <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+                    }
+
+                    @if (Model.UserID > 0 && CurrentUser.AccessLevel == (int)AccessLevel.FullAccess)
+                    {
+                        <input item-id="@Model.UserID" data-toggle="modal" data-target="#myModal" type="button" value="Delete" class="btn btn-danger btn-lg" id="delete-btn" />
+                    }
+                </div>
+                <div class="clear"></div>
+            }
+        </div>
+    </div>
+</div>

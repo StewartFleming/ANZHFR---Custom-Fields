@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Training";
+   // string filePath = Server.MapPath(Url.Content("~/Content/Training/"));
+    string filePath = "../Content/training/";
+    string transferHospitals = filePath + "Under the Surface - Transfer Hospitals.mp4";
+    string completeness = filePath + "Under the Surface - Completeness.mp4";
+    
+
+}
+
+<h2>Training</h2>
+<video width="640" height="360" controls="controls">
+    <source src="@transferHospitals" type="video/mp4" />
+</video>
+<video width="640" height="360" controls="controls">
+    <source src="@completeness" type="video/mp4" />
+</video>

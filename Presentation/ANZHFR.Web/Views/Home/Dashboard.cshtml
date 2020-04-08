@@ -1,0 +1,443 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Welcome to the " + ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry for " + ViewBag.HospitalName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.Hidden("DashboardMonth", ConfigurationManager.AppSettings["DashboardMonth"])
+@Html.Hidden("DashboardYear", ConfigurationManager.AppSettings["DashboardYear"])
+<!-- Solid boxes -->
+<div class="row">
+    <div class="col-md-4">
+        <!-- Primary box -->
+        @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+        {
+            <div class="box box-solid box-danger">
+                <div class="box-header">
+
+                    <h3 class="box-title">Demonstration Mode</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-danger btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-danger btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>Currently this site is in Demonstration Mode.</p>
+                    <p>This means that it is built for testing and may still have some bugs that need addressing. There is a list of features and known issues available.</p>
+                    <p>Record deletion is available in this mode. Normally, you cannot delete patient information once entered.</p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        }
+        else
+        {
+            <div class="box box-solid box-success">
+                <div class="box-header">
+                    <h3 class="box-title">Live Data Entry</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>You are working on the LIVE registry site for @ViewBag.HospitalName</p>
+                    <p>This means that data entered here will be used for local, regional and national reporting.</p>
+                    <p>Record deletion is not available on this site, however you can modify records if entered incorrectly.</p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        }
+    </div><!-- /.col -->
+
+    <div class="col-md-4">
+        <!-- Warning box -->
+        <div class="box box-solid box-warning">
+            <div class="box-header">
+                <h3 class="box-title">2017 Upgrades</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-warning btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-warning btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <p>The following fields have been added or updated as part of the dataset upgrade for 2017.</p>
+                <ul>
+                    <li>Pain assessment (NEW)</li>
+                    <li>Pain management (NEW)</li>
+                    <li>Preoperative cognitive assessment (NEW)</li>
+                    <li>Preoperative AMTS (REMOVED)</li>
+                    <li>Delay to surgery (ADJUSTED)</li>
+                    <li>Type of anaesthesia (ADJUSTED)</li>
+                    <li>Reoperation within 30 day (ADJUSTED)</li>
+                    <li>Reoperation within 120 day (ADJUSTED)</li>
+                </ul>
+                @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                {
+                <p>For a full list of changes, please visit the <a href="http://anzhfr.org/registry-sites/" target="_blank">ANZHFR site</a> and review the <a href="http://anzhfr.org/wp-content/uploads/2015/04/ANZHFR-v9.1-Summary-of-Changes-2017.pdf" target="_blank">Summary of changes</a>, the <a href="http://anzhfr.org/wp-content/uploads/2015/04/ANZHFR_PatientLevelForm_v4_17October2016_clean.pdf" target="_blank">Patient Level Form</a> and the complete <a href="http://anzhfr.org/wp-content/uploads/2015/04/ANZHFR_DataDictionary_v9.1_September2016.pdf" target="_blank">Data Dictionary 9.1</a>.</p>
+                }
+                else
+                {
+                <p>For a full list of changes, please visit the <a href="http://anzhfr.org/registry-sites/" target="_blank">ANZHFR site</a> and review the <a href="http://anzhfr.org/wp-content/uploads/2017/03/ANZHFR_PatientLevelForm_NewZealand_V4_17October2016_clean.pdf" target="_blank">NZ Patient Level Form</a> and the complete <a href="http://anzhfr.org/wp-content/uploads/2015/04/ANZHFR_DataDictionary_v9.1_September2016.pdf" target="_blank">Data Dictionary 9.1</a>.</p>   
+                }
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+    <div class="col-md-4">
+        @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+        {
+        <!-- Danger box -->
+            <div class="box box-solid box-danger">
+                <div class="box-header">
+                    <h3 class="box-title">DO NOT USE REAL PATIENT DATA</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-danger btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-danger btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <p>The demonstration site is NOT ready for live data.</p>
+                    <p>ANZHFR take no responsibility for data loaded into this site.</p>
+                    <p>All test data will be deleted when the site is promoted to live.</p>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        }
+        else
+        {
+        }
+        <div class="box box-solid box-success">
+            <div class="box-header">
+
+                <h3 class="box-title">New Participants</h3>
+                <div class="box-tools pull-right">
+                    <button class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <button class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <p>The following new hospitals have recently started entering data</p>
+                <ul>
+                    @foreach (var hospital in ViewBag.NewHospitals)
+                    {
+                        <li>@hospital.HName</li>
+                    }
+                </ul>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+@if (ConfigurationManager.AppSettings["Type"] == "Demo2")
+{
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Time to Surgery Last Month</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div id="chart_timetosurgery" style="margin-top: 15px; padding: 5px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Average Length of Stay Last Month</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div id="chart_lengthofstay" style="margin-top: 15px; padding: 5px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Total Records Entered Last Month</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div id="chart_totalrecords" style="margin-top: 15px; padding: 5px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid box-info">
+                <div class="box-header">
+                    <h3 class="box-title">Estimated vs Actual This Year</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-info btn-sm" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div id="chart_estimatedactual" style="margin-top: 15px; padding: 5px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ConfigurationManager.AppSettings["Type"] == "Demo")
+            {
+    <div class="row">
+        @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+        {
+
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Hospital Participation by State</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">Count</th>
+                                <th>State</th>
+                                <th>Participation</th>
+                                <th style="width: 40px">Label</th>
+                            </tr>
+                            <tr>
+                                <td>1/24</td>
+                                <td>Victoria</td>
+                                <td>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-yellow" style="width: 4%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-yellow">4%</span></td>
+                            </tr>
+                            <tr>
+                                <td>5/37</td>
+                                <td>New South Wales</td>
+                                <td>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-yellow" style="width: 13%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-yellow">13%</span></td>
+                            </tr>
+                            <tr>
+                                <td>5/13</td>
+                                <td>Queensland</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-yellow" style="width: 38%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-yellow">38%</span></td>
+                            </tr>
+                            <tr>
+                                <td>2/6</td>
+                                <td>Western Australia</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-yellow" style="width: 33%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-yellow">33%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/8</td>
+                                <td>South Australia</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/3</td>
+                                <td>Tasmania</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/2</td>
+                                <td>Northern Territory</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/1</td>
+                                <td>ACT</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        }
+        else
+        {
+            <div class="col-md-6">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Hospital Participation by Region</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th style="width: 10px">Count</th>
+                                <th>Region</th>
+                                <th>Participation</th>
+                                <th style="width: 40px">Label</th>
+                            </tr>
+                            <tr>
+                                <td>0/?</td>
+                                <td>Northern Region</td>
+                                <td>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-yellow">4%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/?</td>
+                                <td>Midland Region</td>
+                                <td>
+                                    <div class="progress xs">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/?</td>
+                                <td>Central Region</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                            <tr>
+                                <td>0/?</td>
+                                <td>Southern Region</td>
+                                <td>
+                                    <div class="progress xs progress-striped active">
+                                        <div class="progress-bar progress-bar-red" style="width: 0%"></div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-red">0%</span></td>
+                            </tr>
+                        </table>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div><!-- /.col -->
+        }
+        <div class="col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Work in progress</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Task</th>
+                            <th>Progress</th>
+                            <th style="width: 40px">Label</th>
+                        </tr>
+                        <tr>
+                            <td>1.</td>
+                            <td>Known bugs</td>
+                            <td>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-success" style="width: 100%"></div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-green">100%</span></td>
+                        </tr>
+                        <tr>
+                            <td>2.</td>
+                            <td>Reporting</td>
+                            <td>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-yellow" style="width: 25%"></div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-yellow">25%</span></td>
+                        </tr>
+                        <tr>
+                            <td>3.</td>
+                            <td>Bug Tracking</td>
+                            <td>
+                                <div class="progress xs progress-striped active">
+                                    <div class="progress-bar progress-bar-yellow" style="width: 10%"></div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-yellow">10%</span></td>
+                        </tr>
+                        <tr>
+                            <td>4.</td>
+                            <td>Import / Export</td>
+                            <td>
+                                <div class="progress xs progress-striped active">
+                                    <div class="progress-bar progress-bar-success" style="width: 100%"></div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-green">100%</span></td>
+                        </tr>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+}
+
+@section scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="~/Scripts/drawChart.js"></script>
+    <script>
+        //google.charts.load('current', { packages: ['corechart', 'bar'] });
+        //google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            var d = new Date();
+            var month = d.getMonth() + 1;
+            var year = d.getFullYear();
+
+            month--;
+            if (month <= 0) {
+                month = 12;
+                year--;
+            }
+
+            var dashboardMonth = $("#DashboardMonth").val();
+            var dashboardYear = $("#DashboardYear").val();
+
+            if (dashboardMonth != undefined && dashboardMonth != "" && dashboardYear != undefined && dashboardYear != "" && parseInt(dashboardYear) > 0) {
+                month = parseInt(dashboardMonth);
+                year = parseInt(dashboardYear);
+            }
+
+            drawChart("chart_timetosurgery", "time-to-surgery", month, year);
+            drawChart("chart_lengthofstay", "length-of-stay", month, year);
+            drawChart("chart_totalrecords", "total-entered", month, year);
+            drawChart("chart_estimatedactual", "estimated-v-actual", month, year);
+        }
+    </script>
+}

@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - About Us";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+@using System.Configuration;
+
+<div class="page-title page-title-blue stacked-title" style="margin-bottom: 0;">
+    <div class="container">
+        <div class="row show-grid">
+            <div class="span12">
+                <h1>\\ About the @ConfigurationManager.AppSettings["Location"] Hip Fracture Registry</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MAIN CONTENT AREA -->
+<div class="main-wrapper">
+    <div class="main-content">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="span12">
+                    <!-- BEGIN ARTICLE CONTENT AREA -->
+                    <article>
+                        <p></p>
+                        <p>The @ConfigurationManager.AppSettings["Location"] Hip Fracture Register is a project of the <em><a href="http://www.anzhfr.org.au">www.anzhfr.org.au</a></em> and is hosted with the 
+                        @if (@ConfigurationManager.AppSettings["Location"] == "Australian")
+                        {
+                            <a href="http://www.unsw.edu.au/" target="_blank">UNSW Medical IT Department</a>
+                        }
+                        else
+                        {
+                           <a href="http://www.nzoa.org.nz/" target="_blank">New Zealand Orthopaedic Association</a>
+                        }to ensure patient data is secure.</p>
+                        <img class="content_image" alt="" src="/Content/static/img/about-us.jpg" />
+                        <p></p>
+                        <p>@ConfigurationManager.AppSettings["Location"] hospitals can <a href="/home/contact">subscribe for free</a> and enter data based on the <em><a href="http://www.anzhfr.org/images/resources/Data%20Dictionary%20v8%20Dec%202013.pdf">ANZHFR Data Dictionary</a></em>.</p>
+                        @if (@ConfigurationManager.AppSettings["Location"] == "Australian")
+                        { 
+                            <p>Data entered into the system can be used to generate hospital reports and will be anonymised for State and National reports.</p>
+                        }else{
+                            <p>Data entered into the system can be used to generate hospital reports and will be anonymised for Regional and National reports.</p>
+                        }
+     
+                    </article>
+                    <!-- END ARTICLE CONTENT AREA -->
+                </div>
+            </div>
+        </div>
+        <!-- MAIN CONTENT AREA: REDESIGN CUSTOM - RECENT TWEETS BAR -->
+        <div class="recent-tweets">
+            <div class="container">
+                <div class="row show-grid">
+                    <div class="span12 twitter-wrapper">
+                        <div id="nav_t"></div>
+                        <div class="tweets-slide"><ul class="slides"></ul></div>
+                        <a class="follow_img" href="#"><img alt="" src="/Content/static/img/follow.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

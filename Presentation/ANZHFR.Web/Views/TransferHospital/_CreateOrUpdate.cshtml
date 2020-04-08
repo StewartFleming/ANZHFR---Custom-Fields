@@ -1,0 +1,99 @@
+﻿@model ANZHFR.Web.Models.TransferHospitalModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            @using (Html.BeginForm())
+            {
+                <div class="editor label-width100 form-width400">
+                    @if (Model.TransferHospitalID != null && Model.TransferHospitalID > 0)
+                    {
+                        @Html.HiddenFor(model => model.TransferHospitalID)
+                    }
+                    @Html.HiddenFor(model => model.HospitalID)
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Name)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.StreetAddress)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.StreetAddress)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.StreetAddress2)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.StreetAddress2)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Suburb)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Suburb)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.City)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.City)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.PostCode)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.PostCode)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.State)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.State)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Country)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Country)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Phone)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Phone)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.AdminEmail)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.AdminEmail)
+                    </div>
+
+                </div>
+
+                <div class="form-bottom margin-left100">
+                    <input type="submit" value="Save" class="btn btn-success btn-lg" id="save-btn" />
+                    <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+                    @if (Model.TransferHospitalID > 0)
+                    {
+                        <input item-id="@Model.TransferHospitalID" data-toggle="modal" data-target="#myModal" type="button" value="Delete" class="btn btn-danger btn-lg" id="delete-btn" />
+                    }
+                </div>
+                <div class="clear"></div>
+            }
+        </div>
+    </div>
+</div>

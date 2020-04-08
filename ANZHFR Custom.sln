@@ -1,0 +1,80 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{3430DB9C-B991-453E-884D-7D4A5DEB9F51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{A2631917-3C52-4B12-BA38-6F9DBD387D15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANZHFR.Web", "Presentation\ANZHFR.Web\ANZHFR.Web.csproj", "{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANZHFR.Core", "Libraries\ANZHFR.Core\ANZHFR.Core.csproj", "{969EE32D-8755-4947-B3B6-58EC0139B79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANZHFR.Data", "Libraries\ANZHFR.Data\ANZHFR.Data.csproj", "{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANZHFR.Services", "Libraries\ANZHFR.Services\ANZHFR.Services.csproj", "{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223}.Release|x64.ActiveCfg = Release|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Debug|x64.Build.0 = Debug|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{969EE32D-8755-4947-B3B6-58EC0139B79C}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524}.Release|x64.ActiveCfg = Release|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Debug|x64.Build.0 = Debug|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Release|x64.ActiveCfg = Release|x64
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB1A59BA-D441-48F7-B82C-8DE8CE6F9223} = {A2631917-3C52-4B12-BA38-6F9DBD387D15}
+		{969EE32D-8755-4947-B3B6-58EC0139B79C} = {3430DB9C-B991-453E-884D-7D4A5DEB9F51}
+		{EC5072C1-E940-4AC2-8FB4-F2863EBE8524} = {3430DB9C-B991-453E-884D-7D4A5DEB9F51}
+		{EA90CF7B-8E85-41A6-80C3-2C9EF52CDD16} = {3430DB9C-B991-453E-884D-7D4A5DEB9F51}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {143E109E-987C-4179-AACC-35B2DBFA27F6}
+	EndGlobalSection
+	GlobalSection(VaultVsipSolution-v2) = preSolution
+		VaultHost = http://as05/VaultService
+		VaultRepositoryID = 1
+		VaultRepositoryGUID = fb82a118-44b8-4d33-a5a5-c5e28d979591
+		ProjectCount = 6
+		ProjectRelativeDiskPath1 = ANZHFR.sln
+		ProjectRelativeDiskPath2 = ANZHFR.sln
+		ProjectRelativeDiskPath3 = Presentation\ANZHFR.Web\ANZHFR.Web.csproj
+		ProjectRelativeDiskPath4 = Libraries\ANZHFR.Core\ANZHFR.Core.csproj
+		ProjectRelativeDiskPath5 = Libraries\ANZHFR.Data\ANZHFR.Data.csproj
+		ProjectRelativeDiskPath6 = Libraries\ANZHFR.Services\ANZHFR.Services.csproj
+	EndGlobalSection
+EndGlobal

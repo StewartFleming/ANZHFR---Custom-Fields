@@ -1,0 +1,43 @@
+﻿@model ANZHFR.Data.Models.Content
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Content</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Content_ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Content_ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Content_Key)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Content_Key)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Content_HTML)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Content_HTML)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Content_Text)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Content_Text)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

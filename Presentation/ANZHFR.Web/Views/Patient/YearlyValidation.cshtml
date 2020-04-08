@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ANZHFR.Data.Models.YearlyValidation>
+@using PagedList.Mvc;
+@using ANZHFR.Web.ExtensionMethods;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "Yearly Validation - Patients for " + ViewBag.HospitalName;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-info alert-dismissable">
+                <i class="fa fa-info"></i>
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                @ViewBag.Message
+            </div>
+        }
+            <div class="filter-box">
+                @using (Html.BeginForm("YearlyValidation", "patient", FormMethod.Get))
+                {
+                    @Html.DropDownList("Year", (List<SelectListItem>)ViewBag.yearList, new { @id = "year", @placeholder = "year" })
+                    <span>&nbsp;</span><input type="submit" id="search-btn" class="btn-common btn-submit" value="Search">
+                }
+            </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body table-responsive">
+                <table id="list" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                            {
+                                <th class="header-right options-width2">MRN/URN</th>
+                            } else
+                            {
+                                <th class="header-right options-width2">Event Number</th>
+                            }
+                                <th class="header-right options-width2">Age at Admission</th>
+                                <th class="header-right options-width2">Time in ED</th>
+                                <th class="header-right options-width2">Time to Surgery</th>
+                                <th class="header-right options-width2">Length of Acute Stay</th>
+                                <th class="header-right options-width2">Length of Stay</th>
+                                <th class="header-right options-width2"></th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a item-id="@item.ANZHFRID" title="Edit" class="link-edit" href="#">@item.Name</a>
+                                </td>
+                                <td>
+                                    @item.MRN
+                                </td>
+                                <td>
+                                    @item.AgeAtAdmission
+                                </td>
+                                <td>
+                                    @item.TimeInED
+                                </td>
+                                <td>
+                                    @item.TimeToSurgery
+                                </td>
+                                <td>
+                                    @item.LengthOfAcuteStay
+                                </td>
+                                <td>
+                                    @item.LengthOfStay
+                                </td>
+                                <td style="text-align:center;">
+                                    <a item-id="@item.ANZHFRID" title="Edit" class="link-edit" href="#"><i class="fa fa-edit"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            mytable = LoadTable();
+        });
+
+        function LoadTable() {
+            $('#list').DataTable({
+                "pageLength": 25,
+                'order': [],
+                columnDefs: []
+            });
+        }
+
+        /**********************************************************************/
+        jQuery(".link-view").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(), 'search': jQuery("#search").val() };
+            window.location.href = "/patient/view/" + jQuery(this).attr("item-id") + "?" + EncodeQueryData(data);
+        });
+
+        /**********************************************************************/
+        jQuery(".link-edit").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(), 'search': jQuery("#search").val(), 'returnURL': "YearlyValidation" };
+            window.location.href = "/patient/edit/" + jQuery(this).attr("item-id") + "?" + EncodeQueryData(data);
+        });
+    </script>
+}

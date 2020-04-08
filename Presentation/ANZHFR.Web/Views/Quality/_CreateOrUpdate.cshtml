@@ -1,0 +1,771 @@
+﻿@model ANZHFR.Web.Models.QualityPatientModel
+
+@using System.Configuration;
+
+@using ANZHFR.Web.ExtensionMethods
+
+@{
+    ANZHFR.Web.Models.UserInfoModel CurrentUser = HttpContext.Current.User.GetUserInfo();
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-info alert-dismissable">
+                <i class="fa fa-info"></i>
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                @ViewBag.Message
+            </div>
+        }
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            @using (Html.BeginForm())
+            {
+
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.QualityID)
+                @Html.HiddenFor(model => model.PatientID)
+                @Html.HiddenFor(model => model.HospitalID)
+                @Html.HiddenFor(model => model.Page)
+                @Html.HiddenFor(model => model.ReturnUrl)
+                @Html.HiddenFor(model => model.FilterSearchName)
+                @Html.HiddenFor(model => model.StartDate)
+                @Html.HiddenFor(model => model.HLengthofStay)
+                @Html.HiddenFor(model => model.OLengthofStay)
+
+                <input type="hidden" id="continue" name="continue" />
+                <div class="field-validation-error">@Model.ErrorMessage</div>
+
+                @*<div class="editor-label">
+                @Html.LabelFor(model => model.HospitalID)
+            </div>
+
+            <div class="editor-field">
+                @Html.DropDownListFor(model => model.HospitalID, new SelectList(Model.HospitalList, "HospitalID", "HName", Model.HospitalID))
+                @Html.ValidationMessageFor(model => model.HospitalID)
+            </div>*@
+                <script type="text/javascript">
+                    var country = '@System.Configuration.ConfigurationManager.AppSettings["Location"]';
+                </script>
+                <!-- Core details -->
+                <div class="editor label-width100 form-width400">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.Name)
+                            </div>
+
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                        </div>  <!-- Column End -->
+                        <div class="col-md-4">
+                            <div class="editor-label">
+                                @Html.LabelFor(model => model.Surname)
+                            </div>
+
+                            <div class="editor-field">
+                                @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", @readonly = "true" })
+                                @Html.ValidationMessageFor(model => model.Surname)
+                            </div>
+                        </div><!-- Column End -->
+                    </div> <!-- Row End -->
+                    <div class="row">
+                        @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                        {
+                            <div class="col-md-4">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.MRN)
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.MRN, new { @class = "form-control", @readonly = "true" })
+                                    @Html.ValidationMessageFor(model => model.MRN)
+                                </div>
+                            </div> <!-- Column End -->
+                            <div class="col-md-4">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Medicare, "Medicare Number")
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.Medicare, new { @class = "form-control", @readonly = "true" })
+                                    @Html.ValidationMessageFor(model => model.Medicare)
+                                </div>
+                                <p style="font-size: small; line-height: 25px;"><a class="Help" href="/Images/medicare.jpg" title="Click for help">Use 11 digits</a></p>
+                            </div> <!-- Column End -->
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.Medicare, "National Health Index")
+                                </div>
+                                <div class="editor-field">
+                                    @Html.EditorFor(model => model.Medicare, new { id = "NHI", name = "NHI" })
+                                    @Html.ValidationMessageFor(model => model.Medicare)
+
+                                </div>
+                            </div> <!-- Column End -->
+                            <div class="col-md-4">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.MRN, "Event Number")
+                                </div>
+                                <div class="editor-field">
+                                    @Html.TextBoxFor(model => model.MRN, new { id = "EventNumber", name = "EventNumber", title = "Click for help." })
+                                    @Html.ValidationMessageFor(model => model.MRN)
+                                </div>
+                            </div> <!-- Column End -->
+                        }
+                    </div> <!-- Row End -->
+                    @if (Model.FractureSide.IsEmpty())
+                    {
+                        <div class="row" id="FractureSideTopField" style="display:block;">
+                            <div class="col-md-4">
+                                <div class="editor-label">
+                                    @Html.LabelFor(model => model.FractureSide, "Fracture Side")
+                                </div>
+                                <div class="editor-field">
+                                    <div title="If the patient has bilateral hip fractures, a separate record should be created for each fracture.">
+                                        @Html.DropDownListFor(model => model.FractureSide, new SelectList(Model.FractureSideList, "FractureSideID", "Name", Model.FractureSide), "--Select--", new { @class = "forcompleteness", id = "FractureSideQuick", name = "FractureSideQuick" })
+                                    </div>
+                                </div>
+                            </div> <!-- Column End -->
+                        </div> <!-- Row End -->
+                        <div class="row" id="FractureSideMsg" style="display:none;">
+                            <div class="col-md-4">
+                                You can change this value under the Assessment Tab.
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="clear"></div>
+                <!-- Validations moved out of tabs -->
+                @Html.ValidationMessageFor(model => model.DOB)
+                @Html.ValidationMessageFor(model => model.ArrivalDateTime)
+                @Html.ValidationMessageFor(model => model.DepartureDateTime)
+                @Html.ValidationMessageFor(model => model.InHospFractureDateTime)
+                @Html.ValidationMessageFor(model => model.TransferDateTime)
+                @Html.ValidationMessageFor(model => model.SurgeryDateTime)
+                @Html.ValidationMessageFor(model => model.GeriatricAssDateTime)
+                @Html.ValidationMessageFor(model => model.WardDischargeDate)
+
+                <!-- Custom Tabs -->
+                <div class="editor label-width100 form-width400" id="Tabs" @if (Model.OptedOut.Equals(true)) { WriteLiteral("style = 'display:none;'"); } else { WriteLiteral("style='display:block;'"); }>
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab_1" data-toggle="tab">Patient Details</a></li>
+                            <li><a href="#tab_2" data-toggle="tab">Admission</a></li>
+                            <li><a href="#tab_3" data-toggle="tab">Assessment</a></li>
+                            <li><a href="#tab_4" data-toggle="tab">Treatment</a></li>
+                            <li><a href="#tab_5" data-toggle="tab">Discharge</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_1">
+
+
+                                <div class="label-patientDetails">
+                                    @Html.LabelFor(model => model.DOB)
+                                </div>
+
+                                <div class="editor-field">
+                                    <input type="text" value="@Model.DOB" data-date-format="DD-MMM-YYYY" name="DOB" id="DOB" class="date-only valid forcompleteness" title="Click on the top bar (Month Year) twice to change decades." onblur="javascript: CalculateAge();">
+                                    @*@Html.ValidationMessageFor(model => model.DOB)*@
+                                    <label id="AgeText"></label>
+                                </div>
+
+                                <div class="label-patientDetails">
+                                    @Html.LabelFor(model => model.Sex)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.Sex, new SelectList(Model.SexList, "SexID", "Name", Model.Sex), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.Sex)
+                                </div>
+
+                                @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                                {
+                                    <div class="label-patientDetails">
+                                        @Html.LabelFor(model => model.PatientType)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        @Html.DropDownListFor(model => model.PatientType, new SelectList(Model.PatientTypeList, "PatientTypeID", "Name", Model.PatientType), "-- Select --", new { @class = "forcompleteness" })
+                                        @Html.ValidationMessageFor(model => model.PatientType)
+                                    </div>
+                                }
+
+                                @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                                {
+                                    <div class="label-patientDetails">
+                                        @Html.LabelFor(model => model.Indig)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        @Html.DropDownListFor(model => model.Indig, new SelectList(Model.IndigList, "IndigID", "Name", Model.Indig), "-- Select --", new { @class = "forcompleteness" })
+                                        @Html.ValidationMessageFor(model => model.Indig)
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="label-patientDetails">
+                                        @Html.LabelFor(model => model.Ethnic)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        @Html.DropDownListFor(model => model.Ethnic, new SelectList(Model.EthnicList, "EthnicID", "Name", Model.Ethnic), "-- Select --", new { @class = "forcompleteness" })
+                                        @Html.ValidationMessageFor(model => model.Ethnic)
+                                    </div>
+                                }
+                                <div class="clear"></div>
+                                <a class="btn btn-primary btnNext">Next</a>
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_2">
+                                <div class="label-Admission">
+                                    @Html.LabelFor(model => model.AdmissionViaED)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.AdmissionViaED, new SelectList(Model.AdmissionViaEDList, "AdmissionViaEDID", "Name", Model.AdmissionViaED), new { @onchange = "javascript: AdmissionChange();", @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.AdmissionViaED)
+                                </div>
+
+                                <div class="label-Admission">
+                                    @Html.LabelFor(model => model.UResidence)
+                                </div>
+
+                                <div class="editor-field" title="Record the patient's usual accommodation type at admission.
+                    Residential aged care refers to a supported facility that provides accommodation and care for a person on a long-term basis.
+                      - This may include multi-purpose services in Australia and private hospitals or rest homes in New Zealand.
+                    If the patient lives with a relative or in a community group home or boarding house code ‘private residence’.
+                    If the patient was admitted from respite care, record their usual place of residence.">
+                                    @Html.DropDownListFor(model => model.UResidence, new SelectList(Model.ResidenceList, "ResidenceID", "Address", Model.UResidence), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.UResidence)
+                                </div>
+                                <div id="transfer" @if (Model.AdmissionViaED.IsEmpty() || !Model.AdmissionViaED.Equals("2")) { WriteLiteral("style = 'display:none';"); }>
+
+                                    <div class="label-Admission">
+                                        @Html.LabelFor(model => model.TransferHospital)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="This list is hospital specific. If a particular hospital is missing, have your administrator add it.">
+                                            @Html.DropDownListFor(model => model.TransferHospital, new SelectList(Model.TransferHospitalList, "TransferHospitalID", "Name", Model.HospitalID), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.TransferHospital)
+                                    </div>
+
+                                    <div class="label-Admission">
+                                        @Html.LabelFor(model => model.TransferDateTime)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.TransferDateTime" data-date-format="DD-MMM-YYYY HH:mm" name="TransferDateTime" id="TransferDateTime" class="date-time valid forcompleteness" onchange="javascript: AdmissionChange();">
+                                        @*@Html.ValidationMessageFor(model => model.TransferDateTime)*@
+                                        If time is unknown, set to 00:00
+                                    </div>
+                                </div>
+                                <div id="ED" @if (Model.AdmissionViaED.IsEmpty()) { } else if (Model.AdmissionViaED.Equals("3")) { WriteLiteral("style = 'display:none';"); }>
+                                    <div class="label-Admission">
+                                        @Html.LabelFor(model => model.ArrivalDateTime)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.ArrivalDateTime" data-date-format="DD-MMM-YYYY HH:mm" name="ArrivalDateTime" id="ArrivalDateTime" class="date-time valid forcompleteness" onchange="javascript: AdmissionChange();">
+                                        @*@Html.ValidationMessageFor(model => model.ArrivalDateTime)*@
+                                        If time is unknown, set to 00:00
+                                    </div>
+
+                                    <div class="label-Admission">
+                                        @Html.LabelFor(model => model.DepartureDateTime)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.DepartureDateTime" data-date-format="DD-MMM-YYYY HH:mm" name="DepartureDateTime" id="DepartureDateTime" class="date-time valid forcompleteness" onblur="javascript: DepartureChange();">
+                                        @*@Html.ValidationMessageFor(model => model.DepartureDateTime)*@
+                                        <label id="EDText"></label>
+                                    </div>
+                                </div>
+                                <div id="inpatient" @if (Model.AdmissionViaED.IsEmpty() || !Model.AdmissionViaED.Equals("3")) { WriteLiteral("style = 'display:none';"); }>
+
+                                    <div class="label-Admission">
+                                        @Html.LabelFor(model => model.InHospFractureDateTime)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.InHospFractureDateTime" data-date-format="DD-MMM-YYYY HH:mm" name="InHospFractureDateTime" id="InHospFractureDateTime" class="date-time valid forcompleteness" onchange="javascript: AdmissionChange();">
+                                        @*@Html.ValidationMessageFor(model => model.InHospFractureDateTime)*@
+                                    </div>
+                                </div>
+                                <div class="label-Admission">
+                                    @Html.LabelFor(model => model.WardType)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.WardType, new SelectList(Model.WardTypeList, "WardTypeID", "Name", Model.WardType), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.WardType)
+                                </div>
+                                <div class="clear"></div>
+                                <a class="btn btn-primary btnPrevious">Previous</a>
+                                <a class="btn btn-primary btnNext">Next</a>
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_3">
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.PreAdWalk)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="What was the patient’s walking ability pre-admission?">
+                                        @Html.DropDownListFor(model => model.PreAdWalk, new SelectList(Model.PreAdWalkList, "PreAdWalkID", "Name", Model.PreAdWalk), "-- Select --", new { @class = "forcompleteness" })
+                                        @Html.ValidationMessageFor(model => model.PreAdWalk)
+                                    </div>
+                                </div>
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.PainAssessment)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.PainAssessment, new SelectList(Model.PainAssessmentList, "PainAssessmentID", "Name", Model.PainAssessment), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.PainAssessment)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.PainManagement)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.PainManagement, new SelectList(Model.PainManagementList, "PainManagementID", "Name", Model.PainManagement), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.PainManagement)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.CognitiveAssessment)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.CognitiveAssessment, new SelectList(Model.CognitiveAssessmentList, "CognitiveAssessmentID", "Name", Model.CognitiveAssessment), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.CognitiveAssessment)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.CognitiveState)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.CognitiveState, new SelectList(Model.CognitiveStateList, "CognitiveStateID", "Name", Model.CognitiveState), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.CognitiveState)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.BoneMed)
+                                </div>
+
+                                <div class="editor-field">
+
+                                    <div title="Calcium or vitamin D includes Calcitriol, calcium and vitamin D or Alpha-calcidol (or one alpha).">
+                                        @Html.DropDownListFor(model => model.BoneMed, new SelectList(Model.BoneMedList, "BoneMedID", "Name", Model.BoneMed), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BoneMed)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.PreOpMedAss)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="The pre-operative assessment is conducted in addition to an anaesthetic review and orthopaedic assessment.
+                    If the pre-operative assessment is conducted by a number of assessment team members, select the highest numerical option.
+                    eg. the highest numerical option to select is ‘1’ geriatrician.">
+                                        @Html.DropDownListFor(model => model.PreOpMedAss, new SelectList(Model.PreOpMedAssList, "PreOpMedAssID", "Name", Model.PreOpMedAss), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PreOpMedAss)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.FractureSide)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="If the patient has bilateral hip fractures, a separate record should be created for each fracture.">
+
+                                        @Html.DropDownListFor(model => model.FractureSide, new SelectList(Model.FractureSideList, "FractureSideID", "Name", Model.FractureSide), "--Select--", new { @readonly = "readonly" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FractureSide)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.AtypicalFracture)
+                                </div>
+
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.AtypicalFracture, new SelectList(Model.AtypicalFractureList, "AtypicalFractureID", "Name", Model.AtypicalFracture), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.AtypicalFracture)
+                                </div>
+
+                                <div class="label-Assessment">
+                                    @Html.LabelFor(model => model.FractureType)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="Basal/basicervical fractures are to the classified as per/intertrochanteric.">
+                                        @Html.DropDownListFor(model => model.FractureType, new SelectList(Model.FractureTypeList, "FractureTypeID", "Name", Model.FractureType), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FractureType)
+                                </div>
+                                <div class="clear"></div>
+                                <a class="btn btn-primary btnPrevious">Previous</a>
+                                <a class="btn btn-primary btnNext">Next</a>
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_4">
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.Surgery)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="Did the patient undergo surgical repair of the hip fracture?">
+                                        @Html.DropDownListFor(model => model.Surgery, new SelectList(Model.SurgeryList, "SurgeryID", "Name", Model.Surgery), "-- Select --",
+                                                                                          new { @onchange = "if($('#Surgery').val() == '1'){$('#surgery').hide();$('#surgery1').hide();}else{$('#surgery').show();$('#surgery1').show();}", @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.Surgery)
+                                </div>
+                                <div id="surgery" @if (Model.Surgery.IsEmpty() || Model.Surgery.Equals("1")) { WriteLiteral("style = 'display:none';"); }>
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.SurgeryDateTime)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.SurgeryDateTime" data-date-format="DD-MMM-YYYY HH:mm" name="SurgeryDateTime" id="SurgeryDateTime" class="date-time valid forcompleteness"
+                                               title="The time of surgery for the hip fracture  is taken from the start of the anaesthetic process." onchange="javascript: CalculateTimeToSurgery();">
+                                        @*@Html.ValidationMessageFor(model => model.SurgeryDateTime)*@
+                                        <label id="SurgeryText"></label>
+                                    </div>
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.SurgeryDelay)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="What was the reason for the delay, if the delay was greater than 48 hours from the time of arrival in the emergency department
+                    or diagnosis of a fracture if the fracture occurred as an in-patient?">
+                                            @Html.DropDownListFor(model => model.SurgeryDelay, new SelectList(Model.SurgeryDelayList, "SurgeryDelayID", "Name", Model.SurgeryDelay), "-- Select --", new { @onchange = "if($('#SurgeryDelay').val() == '7'){$('#surgerydelay').show();}else{$('#surgerydelay').hide();}", @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.SurgeryDelay)
+                                    </div>
+
+                                    <div id="surgerydelay" @if (Model.SurgeryDelay.IsEmpty() || !Model.SurgeryDelay.Equals("7")) { WriteLiteral("style = 'display:none';"); }>
+                                        <div class="label-Treatment">
+                                            @Html.LabelFor(model => model.SurgeryDelayOther)
+                                        </div>
+
+                                        <div class="editor-field">
+                                            @Html.TextAreaFor(model => model.SurgeryDelayOther, new { @class = "forcompleteness" })
+                                            @Html.ValidationMessageFor(model => model.SurgeryDelayOther)
+                                        </div>
+                                    </div>
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.ASAGrade)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        @Html.DropDownListFor(model => model.ASAGrade, new SelectList(Model.ASAGradeList, "ASAGradeID", "Name", Model.ASAGrade), "-- Select --", new { @class = "forcompleteness" })
+                                        @Html.ValidationMessageFor(model => model.ASAGrade)
+                                    </div>
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.Anaesthesia)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="CSE=Combined Spinal/Epidural.  Recorded in anaesthetic chart.">
+                                            @Html.DropDownListFor(model => model.Anaesthesia, new SelectList(Model.AnaesthesiaList, "AnaesthesiaID", "Name", Model.Anaesthesia), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Anaesthesia)
+                                    </div>
+                                </div>
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.Analgesia)
+                                </div>
+                                <div class="editor-field">
+                                    @Html.DropDownListFor(model => model.Analgesia, new SelectList(Model.AnalgesiaList, "AnalgesiaID", "Name", Model.Analgesia), "-- Select", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.Analgesia)
+                                </div>
+                                <div id="surgery1" @if (Model.Surgery.IsEmpty() || Model.Surgery.Equals("1")) { WriteLiteral("style = 'display:none';"); }>
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.ConsultantPresent)
+                                    </div>
+                                    <div class="editor-field">
+                                        <div title="Identified by checking if the consultant surgeon recorded on the operation sheet.">
+                                            @Html.DropDownListFor(model => model.ConsultantPresent, new SelectList(Model.ConsultantPresentList, "ConsultantPresentID", "Name", Model.ConsultantPresent), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.ConsultantPresent)
+                                    </div>
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.Operation)
+                                    </div>
+                                    <div class="editor-field">
+                                        <div title="Intramedullary nail includes: Proximal femoral nail, Antegrade femoral nail, and Gamma nail.
+                    Cemented only includes whether the stem was cemented; not include whether or not the cup was cemented.
+                    Austin Moore prosthesis to be included in hemiarthroplasty – uncemented.
+                    Sliding hip screws include dynamic hip screws.">
+                                            @Html.DropDownListFor(model => model.Operation, new SelectList(Model.OperationList, "OperationID", "Name", Model.Operation), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Operation)
+                                    </div>
+                                    @* REMOVED FOR 2018 Dataset
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.InterOpFracture)
+                                </div>
+                                <div class="editor-field">
+                                    <div title="An intra-operative fracture is a fracture that occurs unintentionally during the surgical procedure.">
+                                        @Html.DropDownListFor(model => model.InterOpFracture, new SelectList(Model.InterOpFractureList, "InterOpFractureID", "Name", Model.InterOpFracture), "-- Select --")
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.InterOpFracture)
+                                </div>
+                                    *@
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.FullWeightBear)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="Unrestricted weight bearing refers to a patient who is able to mobilise with full use of the affected limb to weight bear as pain allows. ">
+                                            @Html.DropDownListFor(model => model.FullWeightBear, new SelectList(Model.WeightBearList, "WeightBearID", "Name", Model.FullWeightBear), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.FullWeightBear)
+                                    </div>
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.Mobilisation)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="Was the patient given the opportunity to start mobilising on the first day post-surgery?">
+                                            @Html.DropDownListFor(model => model.Mobilisation, new SelectList(Model.MobilisationList, "MobilisationID", "Name", Model.Mobilisation), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Mobilisation)
+                                    </div>
+                                </div>
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.PressureUlcers)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="Did the patient acquire a new pressure ulcer (Stage II or above) during the episode of care?">
+                                        @Html.DropDownListFor(model => model.PressureUlcers, new SelectList(Model.PressureUlcersList, "PressureUlcersID", "Name", Model.PressureUlcers), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.PressureUlcers)
+                                </div>
+
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.DeleriumAssessment)
+                                </div>
+
+                                <div class="editor-field" title="Delirium within 7 days of surgery">
+                                    @Html.DropDownListFor(model => model.DeleriumAssessment, new SelectList(Model.DeleriumAssessmentList, "DeleriumAssessmentID", "Name", Model.DeleriumAssessment), "-- Select --", new { @class = "forcompleteness" })
+                                    @Html.ValidationMessageFor(model => model.DeleriumAssessment)
+                                </div>
+                                <div id="malnutrition" @if (Model.StartDate.IsEmpty()) { WriteLiteral("style='display:block;'"); } else { WriteLiteral("style='display:none;'"); }>
+
+
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.Malnutrition)
+                                    </div>
+
+                                    <div class="editor-field">
+                                        <div title="Did the patient undergo clinical assessment of their protein/energy nutrition status during the acute phase of the episode of care?">
+                                            @Html.DropDownListFor(model => model.Malnutrition, new SelectList(Model.MalnutritionList, "MalnutritionID", "Name", Model.Malnutrition), "-- Select --", new { @class = "forcompleteness" })
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.Malnutrition)
+                                    </div>
+                                </div>
+
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.GeriatricAssessment)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="An assessment by geriatric medicine refers to an assessment by a geriatrician or a medical practitioner (Registrar)
+                    working under the supervision of a geriatrician.">
+                                        @Html.DropDownListFor(model => model.GeriatricAssessment, new SelectList(Model.GeriatricAssessmentList, "GeriatricAssessmentID", "Name", Model.GeriatricAssessment), "-- Select --", new { @onchange = "if($('#GeriatricAssessment').val() == '1'){$('#GeriatricDate').show();}else{$('#GeriatricDate').hide();}", @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.GeriatricAssessment)
+                                </div>
+
+                                <div id="GeriatricDate" @if (Model.GeriatricAssessment.IsEmpty() || !Model.GeriatricAssessment.Equals("1")) { WriteLiteral("style = 'display:none';"); }>
+                                    <div class="label-Treatment">
+                                        @Html.LabelFor(model => model.GeriatricAssDateTime)
+                                    </div>
+                                    <div class="editor-field">
+                                        <input type="text" value="@Model.GeriatricAssDateTime" data-date-format="DD-MMM-YYYY" name="GeriatricAssDateTime" id="GeriatricAssDateTime" class="date-only valid forcompleteness"
+                                               title="A geriatric assessment is considered to include an assessment by a geriatrician or a medical practitioner (Registrar)
+                    working under the supervision of a geriatrician.">
+                                        @*@Html.ValidationMessageFor(model => model.GeriatricAssDateTime)*@
+                                    </div>
+                                </div>
+
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.FallsAssessment)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="A specialist falls assessment includes: a systematic assessment by a suitably trained person (i.e. geriatrician or a specialist assessment trained nurse)
+                    which must go over the following domains:
+                    (i) falls history (noting previous falls);
+                    (ii) cause of index fall (including medication review);
+                    (iii) risk factors for falling and injury (including fracture)
+                    and from this information formulate and document a plan of action to prevent further falls.">
+                                        @Html.DropDownListFor(model => model.FallsAssessment, new SelectList(Model.FallsAssessmentList, "FallsAssessmentID", "Name", Model.FallsAssessment), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.FallsAssessment)
+                                </div>
+                                <div class="label-Treatment">
+                                    @Html.LabelFor(model => model.BoneMedDischarge)
+                                </div>
+
+                                <div class="editor-field">
+                                    <div title="Calcium or vitamin D includes Calcitriol calcium and vitamin D or Alpha-calcidol (or one alpha).
+                    Bisphosphonates includes: Etidronate, Alendronate, Risedronate, Ibandronate, Zoledronate, Pamidronate.">
+                                        @Html.DropDownListFor(model => model.BoneMedDischarge, new SelectList(Model.BoneMedList, "BoneMedID", "Name", Model.BoneMedDischarge), "-- Select --", new { @class = "forcompleteness" })
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.BoneMedDischarge)
+                                </div>
+                                <div class="clear"></div>
+                                <a class="btn btn-primary btnPrevious">Previous</a>
+                                <a class="btn btn-primary btnNext">Next</a>
+                            </div><!-- /.tab-pane -->
+                            <div class="tab-pane" id="tab_5">
+                                <div class="col-md-6">
+                                    <div class="box box-primary">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Acute care/ orthopaedic care discharge</h3>
+
+                                            <div class="label-Discharge">
+                                                @Html.LabelFor(model => model.WardDischargeDate)
+                                            </div>
+
+                                            <div class="editor-field">
+                                                <input type="text" value="@Model.WardDischargeDate" data-date-format="DD-MMM-YYYY" name="WardDischargeDate" id="WardDischargeDate" class="date-only valid forcompleteness" onchange="calcALengthOfStay();">
+                                                @*@Html.ValidationMessageFor(model => model.WardDischargeDate)*@
+                                                <label id="AcuteLOSText"></label>
+                                            </div>
+
+                                            <div class="label-Discharge">
+                                                @Html.LabelFor(model => model.DischargeDest)
+                                            </div>
+
+                                            <div class="editor-field">
+                                                <div title="Record the patient's discharge destination at discharge from the acute orthopaedic stay.
+                    If the patient is discharged to live with a relative or in a community group home or boarding house code ‘private residence’.">
+                                                    @Html.DropDownListFor(model => model.DischargeDest, new SelectList(Model.DischargeDestList, "DischargeDestID", "Name", Model.DischargeDest), "-- Select --",
+new { @onchange = "if($('#DischargeDest').val() == '6' || $('#DischargeResidence').val() == '3'){$('#DeceasedWarning').show();$('#DeceasedWarning120').show();}else{$('#DeceasedWarning').hide();$('#DeceasedWarning120').hide();}", @class = "forcompleteness" })
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.DischargeDest)
+                                            </div>
+                                            @*
+                                        <div class="label-Discharge">
+                                            @Html.LabelFor(model => model.OLengthofStay)
+                                        </div>
+                                        <div class="editor-field">
+                                            @Html.TextBoxFor(model => model.OLengthofStay, new { @readonly = "readonly" })
+                                            Calculated for display purposes only
+                                        </div>
+                                            *@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="box box-primary">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Hospital system discharge</h3>
+
+                                            <div class="label-Discharge">
+                                                @Html.LabelFor(model => model.HospitalDischargeDate)
+                                            </div>
+
+                                            <div class="editor-field">
+                                                <input type="text" value="@Model.HospitalDischargeDate" data-date-format="DD-MMM-YYYY" name="HospitalDischargeDate" id="HospitalDischargeDate" class="date-only valid forcompleteness" onchange="calcHLengthOfStay();">
+                                                @Html.ValidationMessageFor(model => model.HospitalDischargeDate)
+                                                <label id="HospitalLOSText"></label>
+                                            </div>
+
+                                            <div class="label-Discharge">
+                                                @Html.LabelFor(model => model.DischargeResidence)
+                                            </div>
+
+                                            <div class="editor-field">
+                                                @Html.DropDownListFor(model => model.DischargeResidence, new SelectList(Model.DischargeResidenceList, "DischargeResidenceID", "Address", Model.DischargeResidence), "-- Select --",
+new { @onchange = "if($('#DischargeDest').val() == '6' || $('#DischargeResidence').val() == '3'){$('#DeceasedWarning').show();$('#DeceasedWarning120').show();}else{$('#DeceasedWarning').hide();$('#DeceasedWarning120').hide();}", @class = "forcompleteness" })
+                                                @Html.ValidationMessageFor(model => model.DischargeResidence)
+                                            </div>
+                                            @*
+                                        <div class="label-Discharge">
+                                            @Html.LabelFor(model => model.HLengthofStay)
+                                        </div>
+
+                                        <div class="editor-field">
+                                            @Html.TextBoxFor(model => model.HLengthofStay, new { @readonly = "readonly" })
+                                            Calculated for display purposes only
+                                        </div>
+                                            *@
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clear"></div>
+                                <a class="btn btn-primary btnPrevious">Previous</a>
+                            </div><!-- /.tab-pane -->
+                            <div class="clear"></div>
+                        </div><!-- /.tab-content -->
+                    </div><!-- nav-tabs-custom -->
+                </div>
+                <div class="form-bottom margin-sleft100">
+                    @if (Model.QualityID > 0)
+                    {
+                        <input name = "submit" item-id="@Model.QualityID" type="submit" value="Save & Compare" class="btn btn-success btn-lg" id="continue" />
+                    }
+
+                    <input name = "submit" type="submit" value="Save & Close" class="btn btn-success btn-lg" id="save-btn" />
+                    <input type="button" value="Back" class="btn btn-warning btn-lg" id="qcancel-btn" />
+                    @if (Model.QualityID > 0 && CurrentUser.AccessLevel == (int)AccessLevel.FullAccess)
+                    {
+                        <input item-id="@Model.QualityID" data-toggle="modal" data-target="#myModal" type="button" value="Delete" class="btn btn-danger btn-lg" id="qdelete-btn" />
+                    }
+                </div>
+                <div class="clear"></div>
+                if (!Model.Created.IsEmpty())
+                {
+                    @:Created by
+                    @Model.Author.ToString()
+                    @: on
+                    @Model.Created.ToString()
+                    @:<br />
+                }
+                if (!Model.LastModified.IsEmpty())
+                {
+                    if (!Model.ModifiedBy.IsEmpty())
+                    {
+                        @:Last Modified by
+                        @Model.ModifiedBy.ToString()
+                        @: on
+                        @Model.LastModified.ToString()
+                    }
+                    else
+                    {
+                        @:Last Updated
+                        @Model.LastModified.ToString()
+                    }
+
+                }
+
+            }
+        </div>
+    </div>
+</div>

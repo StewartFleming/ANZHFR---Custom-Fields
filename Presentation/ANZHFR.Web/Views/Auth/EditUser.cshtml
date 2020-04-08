@@ -1,0 +1,36 @@
+﻿@model KiKhai.Admin.Models.UserModel
+
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+@Html.Partial("_CreateOrUpdateUser", Model)
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+            /**********************************************************************/
+            jQuery("#cancel-btn").on("click", function (event) {
+                event.preventDefault();
+                var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#FilterSearch").val() };
+                window.location.href = "/auth/users?" + EncodeQueryData(data);
+            });
+
+            /**********************************************************************/
+            jQuery("#delete-btn").on("click", function (event) {
+                event.preventDefault();
+                jQuery("#DeleteItemId").val(jQuery(this).attr("item-id"));
+            });
+
+            /**********************************************************************/
+            jQuery("#con-delete-btn").on("click", function (event) {
+                event.preventDefault();
+                var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#FilterSearch").val() };
+                window.location.href = "/auth/deleteuser/" + jQuery("#DeleteItemId").val() + "?" + EncodeQueryData(data);
+            });
+    </script>
+}

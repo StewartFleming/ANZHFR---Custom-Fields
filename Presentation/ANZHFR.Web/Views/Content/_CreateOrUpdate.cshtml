@@ -1,0 +1,48 @@
+﻿@model ANZHFR.Web.Models.ContentModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            @using (Html.BeginForm())
+            {
+                <div class="editor label-width100 form-width400">
+                    @if (Model.Content_ID != null && Model.Content_ID > 0)
+                    {
+                        @Html.HiddenFor(model => model.Content_ID)
+                    }
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Content_Key)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Content_Key)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Content_HTML)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Content_HTML)
+                    </div>
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Content_Text)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Content_Text)
+                    </div>
+                    
+                </div>
+
+                <div class="form-bottom margin-left100">
+                    <input type="submit" value="Save" class="btn btn-success btn-lg" id="save-btn" />
+                    <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+                    @if (Model.Content_ID > 0)
+                    {
+                        <input item-id="@Model.Content_ID" data-toggle="modal" data-target="#myModal" type="button" value="Delete" class="btn btn-danger btn-lg" id="delete-btn" />
+                    }
+                </div>
+                <div class="clear"></div>
+            }
+        </div>
+    </div>
+</div>

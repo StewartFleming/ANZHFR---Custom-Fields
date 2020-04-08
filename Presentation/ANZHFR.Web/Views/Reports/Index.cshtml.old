@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Report";
+}
+
+@section styles {
+    @*<link href="~/Scripts/jqPlot/jquery.jqplot.min.css" rel="stylesheet" />*@
+}
+
+<form action="/reports" method="post" class="form form-report">
+    <div class="editor" style="margin-bottom: 20px;">
+        <div class="editor-field">
+            <select id="reportType" name="reportType" class="ddlReport">
+                <option value="total-entered">Total Records Entered</option>
+                <option value="cognitive-state">% Pre-operative Cognitive State</option>
+                <option value="medical-assessment">% Pre-operative Medical Assessment</option>
+                <option value="mobilisation">% Mobilisation</option>
+                <option value="weight-bearing">% Full Weight Bearing</option>
+                <option value="pressure-ulcers">% Pressure Ulcers</option>
+                <option value="bone-medication">% Bone Medication on Discharge</option>
+                <option value="reoperation">% Reoperation</option>
+                <option value="survival-30-days">% Survival at 30 Days</option>
+                <option value="surgery-best-practice">@String.Format("Surgery < {0:n0} Hours", ViewBag.BestPracticeReportHours)</option>
+                <option value="length-of-stay">Length of Stay</option>
+                <option value="time-to-surgery">Time to Surgery</option>                         
+                @*
+    
+      
+    <option value="age">Age</option>
+    <option value="sex">Sex</option>
+    <option value="fracture-type">Fracture Type</option>
+    <option value="discharge-destination">Discharge Destination from Hospital</option>
+*@
+            </select>
+        </div>
+        <div class="editor-field">
+            @{
+                int[] months = Enumerable.Range(1, 12).ToArray();
+                int curMonth = DateTime.Today.Month;
+            }
+
+            @Html.DropDownList("month", months.Select(x =>
+                new SelectListItem
+                {
+                    Text = string.Format("{0:MMMM}", new DateTime(2016, x, 1)),
+                    Value = x.ToString(),
+                    Selected = (x == curMonth)
+                }
+            ))
+        </div>
+        <div class="editor-field">
+            <input type="number" class="text-box single-line txtYear" value="@ViewBag.Year" name="year" id="year" />
+        </div>
+        <div class="editor-field">
+            <button class="btn btn-primary loader btnGo">GO</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</form>
+
+<div id="chart_div" style="margin-top: 15px; padding: 5px;"></div>
+
+@section scripts {
+    <!--[if lt IE 9]><script type="text/javascript" src="~/Scripts/jqPlot/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>`
+    <script type="text/javascript" src="~/Scripts/drawChart.js"></script>
+    <script>
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
+        $('.form-report').submit(function (e) {
+            e.preventDefault();
+
+            google.charts.setOnLoadCallback(drawChart2);
+            ANZHFR.Loader.show('.btnGo');
+
+            function drawChart2() {
+                drawChart('chart_div', $('#reportType').val(), $('#month').val(), $('#year').val())
+            }
+
+            ANZHFR.Loader.hide('.btnGo');
+
+        });
+
+        // Submit the form as soon as the page loads to display the first report in the list
+        $('.form-report').submit();
+    </script>
+}

@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "SwitchHospital";
+}
+<form action="#" method="post">
+    <h2>SwitchHospital</h2>
+    @Html.DropDownList("HospitalID", (List<SelectListItem>)ViewBag.HospitalList, "", new { @id = "hospitalID", @placeholder = "hospital" })
+    <div class="buttons-box">
+        <input type="submit" value="Switch" class="btn-common btn-submit" id="switch" />
+    </div>
+</form>
+
+    

@@ -1,0 +1,558 @@
+﻿@model ANZHFR.Web.Models.PatientModel
+@using System.Configuration;
+
+@{
+	ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - View patient";
+}
+
+<div class="row">        
+    <div class="col-md-12">
+        <div class="box box-success">
+        @using (Html.BeginForm()) {
+
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.PatientID)
+            @Html.HiddenFor(model => model.HospitalID)
+            @Html.HiddenFor(model => model.Page)
+            @Html.HiddenFor(model => model.FilterSearchName)
+
+            <div class="field-validation-error">@Model.ErrorMessage</div>
+            <div class="editor label-width100 form-width400">
+
+                @*<div class="editor-label">
+                    @Html.LabelFor(model => model.HospitalID)
+                </div>
+
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.HospitalID, new SelectList(Model.HospitalList, "HospitalID", "HName", Model.HospitalID))
+                    @Html.ValidationMessageFor(model => model.HospitalID)
+                </div>*@
+                
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Name, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Surname)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Surname, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.MRN)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.MRN, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Phone)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Phone, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DOB)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.DOB" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Sex)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Sex, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Indig)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Indig, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Ethnic)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Ethnic, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PostCode)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.PostCode, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Medicare)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Medicare, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PatientType)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.PatientType, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.UResidence)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.UResidence, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TransferHospital)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.TransferHospital, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.TransferDateTime)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.TransferDateTime" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ArrivalDateTime)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.ArrivalDateTime" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DepartureDateTime)
+                </div>
+
+                <div class="editor-field">
+					<input type="text" value="@Model.DepartureDateTime" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.InHospFractureDateTime)
+                </div>
+
+                <div class="editor-field">
+					<input type="text" value="@Model.InHospFractureDateTime" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WardType)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.WardType, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PreAdWalk)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.PreAdWalk, new { @readonly = "readonly" })
+                </div>
+
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.AMTS)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.AMTS, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.CognitiveState)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.CognitiveState, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BoneMed)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.BoneMed, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PreOpMedAss)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.PreOpMedAss, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FractureSide)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.FractureSide, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.AtypicalFracture)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.AtypicalFracture, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FractureType)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.FractureType, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Surgery)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Surgery, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.SurgeryDateTime)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.SurgeryDateTime" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.SurgeryDelay)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.SurgeryDelay, new { @readonly = "readonly" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.SurgeryDelayOther)
+                </div>
+
+                <div class="editor-field">
+                    @Html.TextAreaFor(model => model.SurgeryDelayOther, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Anaesthesia)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Anaesthesia, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Analgesia)
+                </div>
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Analgesia, new { @readonly = "readonly" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ConsultantPresent)
+                </div>
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.ConsultantPresent, new { @readonly = "readonly" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Operation)
+                </div>
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Operation, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.InterOpFracture)
+                </div>
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.InterOpFracture, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FullWeightBear)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.FullWeightBear, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.PressureUlcers)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.PressureUlcers, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.GeriatricAssessment)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.GeriatricAssessment, new { @readonly = "readonly" })
+                </div>
+                
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.GeriatricAssDateTime)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.GeriatricAssDateTime" readonly="readonly" />
+                    @Html.ValidationMessageFor(model => model.GeriatricAssDateTime)
+                </div>
+
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FallsAssessment)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.FallsAssessment, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BoneMedDischarge)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.BoneMedDischarge, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WardDischargeDate)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.WardDischargeDate" readonly="readonly" />
+                    @Html.ValidationMessageFor(model => model.WardDischargeDate)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DischargeDest)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.DischargeDest, new { @readonly = "readonly" })
+                </div>
+
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HospitalDischargeDate)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.HospitalDischargeDate" readonly="readonly" />
+                    @Html.ValidationMessageFor(model => model.HospitalDischargeDate)
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.OLengthofStay)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.OLengthofStay, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HLengthofStay)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.HLengthofStay, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.DischargeResidence)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.DischargeResidence, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FollowupDate30)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.FollowupDate30" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HealthServiceDischarge30)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.HealthServiceDischarge30" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Survival30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Survival30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Residence30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Residence30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WeightBear30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.WeightBear30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WalkingAbility30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.WalkingAbility30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BoneMed30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.BoneMed30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Reoperation30)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Reoperation30, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.FollowupDate120)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.FollowupDate120" readonly="readonly" />
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.HealthServiceDischarge120)
+                </div>
+
+                <div class="editor-field">
+                    <input type="text" value="@Model.HealthServiceDischarge120" readonly="readonly" />
+                </div>
+
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Survival120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Survival120, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Residence120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Residence120, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WeightBear120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.WeightBear120, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.WalkingAbility120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.WalkingAbility120, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.BoneMed120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.BoneMed120, new { @readonly = "readonly" })
+                </div>
+
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Reoperation120)
+                </div>
+
+                <div class="editor-field">
+					@Html.TextBoxFor(model => model.Reoperation120, new { @readonly = "readonly" })
+                </div>
+            </div>
+            
+            <div class="form-bottom margin-left100">
+                <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+            </div>
+            <div class="clear"></div>
+        }
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+	<script type="text/javascript">
+
+		/**********************************************************************/
+		jQuery("#cancel-btn").on("click", function (event) {
+			event.preventDefault();
+			var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#Search").val() };
+			window.location.href = "/patient?" + EncodeQueryData(data);
+		});
+	</script>
+}

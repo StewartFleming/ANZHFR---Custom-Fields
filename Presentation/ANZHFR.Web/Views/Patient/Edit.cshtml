@@ -1,0 +1,32 @@
+﻿@model ANZHFR.Web.Models.PatientModel
+@using System.Configuration;
+
+
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Edit patient";
+}
+
+@Html.Partial("_CreateOrUpdate", Model)
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("/Scripts/patient.js")"></script>
+}
+<style>
+    fieldset div {
+        margin-bottom: 2em;
+    }
+
+    fieldset .help {
+        display: inline-block;
+    }
+
+    .ui-tooltip {
+        width: 410px;
+    }
+
+    div.curFocus {
+        background: #fdecb2;
+    }
+</style>

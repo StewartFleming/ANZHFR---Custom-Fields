@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Report";
+}
+
+@section styles {
+    @*<link href="~/Scripts/jqPlot/jquery.jqplot.min.css" rel="stylesheet" />*@
+}
+
+<form action="/reports" method="post" class="form form-report">
+    <div class="editor" style="margin-bottom: 20px;">
+        <div class="editor-field">
+
+            @Html.DropDownList("reportType", (List<SelectListItem>)ViewBag.ReportList, null, new { @id = "reportType", @class = "ddlReport" })
+        </div>
+        <div class="editor-field">
+            @{
+                int[] months = Enumerable.Range(1, 12).ToArray();
+                int curMonth = DateTime.Today.Month;
+            }
+
+            @Html.DropDownList("month", months.Select(x =>
+                new SelectListItem
+                {
+                    Text = string.Format("{0:MMMM}", new DateTime(2016, x, 1)),
+                    Value = x.ToString(),
+                    Selected = (x == curMonth)
+                }
+            ))
+        </div>
+        <div class="editor-field">
+            <input type="number" class="text-box single-line txtYear" value="@ViewBag.Year" name="year" id="year" />
+        </div>
+        <div class="editor-field">
+            <button class="btn btn-primary loader btnGo">Show</button>
+            <button class="btn btn-primary loader btnGo" onclick="exportChart()">Export</button>
+        </div>
+    </div>
+    <div class="clear"></div>
+</form>
+
+<div id="chart_div" style="margin-top: 15px; padding: 5px;"></div>
+
+<br />
+<div id="divDescriptionArea" class="alert alert-info">
+    <i class="fa fa-info"></i>
+    <div id="divDescription"></div>
+</div>
+
+@section scripts {
+    <!--[if lt IE 9]><script type="text/javascript" src="~/Scripts/jqPlot/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="~/Scripts/drawChart.js"></script>
+    <script type="text/javascript" src="~/Scripts/download.js"></script>
+    <script>
+        google.charts.load('current', { packages: ['corechart', 'bar'] });
+        $('.form-report').submit(function (e) {
+            e.preventDefault();
+
+            google.charts.setOnLoadCallback(drawChart2);
+            ANZHFR.Loader.show('.btnGo');
+
+            function drawChart2() {
+                drawChart('chart_div', $('#reportType').val(), $('#month').val(), $('#year').val(), false);
+            }
+
+            ANZHFR.Loader.hide('.btnGo');
+        });
+
+        function exportChart() {
+            ANZHFR.Loader.show('.btnGo');
+            drawChart('chart_div', $('#reportType').val(), $('#month').val(), $('#year').val(), true);
+            ANZHFR.Loader.hide('.btnGo');
+        }
+
+        // Submit the form as soon as the page loads to display the first report in the list
+        $('.form-report').submit();
+    </script>
+}

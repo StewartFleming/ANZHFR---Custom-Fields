@@ -1,0 +1,220 @@
+﻿@{
+    Layout = null;
+}
+@using System.Configuration;
+<!DOCTYPE html>
+<html>
+<head>
+    <!--  SEO STUFF START HERE -->
+    <title>@ConfigurationManager.AppSettings["Location"] Hip Fracture Registry</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="Stewart Fleming" />
+    <meta name="robots" content="follow, index" />
+    <!--  SEO STUFF END -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--  revolution slider plugin : begin -->
+    @*<link rel="stylesheet" type="text/css" href="rs-plugin/css/settings.css" media="screen" />*@
+    <link rel="stylesheet" type="text/css" href="/Content/static/css/rs-responsive.css" media="screen" />
+    <!--  revolution slider plugin : end -->
+    <link rel="stylesheet" href="/Content/static/css/bootstrap.css" />
+    <link rel="stylesheet" href="/Content/static/css/custom.css" />
+    <link rel="stylesheet" href="/Content/static/css/css3-menu.css" />
+    <link rel="stylesheet" href="/Content/static/css/isotope.css" />
+    <link rel="stylesheet" href="/Content/static/css/color_scheme.css" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic" rel="stylesheet" type="text/css" />
+    <link href='//fonts.googleapis.com/css?family=Raleway:400,900,500,600,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/Content/static/css/font-awesome.css" />
+    <link rel="stylesheet" href="/Content/static/css/font-awesome-ie7.css" />
+    <link rel="stylesheet" href="/Content/static/css/flexslider.css" />
+    <link rel="stylesheet" href="/Content/static/css/jquery.fancybox.css?v=2.1.0" type="text/css" media="screen" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="text/css" href="css/IE-fix.css" />
+    <![endif]-->
+    <script>
+        $(function () {
+            $("#accordion").accordion();
+        });
+    </script>
+</head>
+<body>
+    <!-- THE LINE AT THE VERY TOP OF THE PAGE -->
+    <div class="top_line"></div>
+    <!-- HEADER AREA -->
+    <header>
+        <div class="container">
+            <div class="row">
+
+                <!-- HEADER: LOGO AREA -->
+                <div class="span4 logo">
+                    <a class="logo" href="/home/index">
+                        <img alt="logo" title="ANZHFR" src="/Content/static/img/logo.png">
+                    </a>
+                </div>
+                @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+                {
+                    <text>
+                        <div class="span4"><h1 style="text-align:center; color:Red; font-weight:bold"> Demonstration Only</h1></div><div class="span4">
+                    </text>
+                }
+                else
+                {
+                    <text>
+                        <div class="span4 offset4">
+                    </text>
+                }
+
+                <!-- HEADER: PHONE NUMBER -->
+                <p class="head_phone">
+                    @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                    {
+                        <span class="icon-email"></span><a href="mailto:clinical@hipfracture.com.au">Clinical Support</a><br />
+                        <span class="icon-email"></span><a href="mailto:admin@hipfracture.com.au">Technical Support</a>
+                    }
+                    else
+                    {
+                        <span class="icon-email"></span><a href="mailto:clinical@hipfracture.co.nz">Clinical Support</a><br />
+                        <span class="icon-email"></span><a href="mailto:admin@hipfracture.co.nz">Technical Support</a>
+                    }
+                </p>
+            </div>
+            <!-- HEADER: SOCIAL ICONS -->
+            <!-- <ul class="socials unstyled">
+                 <li><a data-rel="tooltip" title="Follow us on Flickr" class="flickr" href="#"></a></li>
+                 <li><a data-rel="tooltip" title="Follow us on Twitter" class="twitter" href="#"></a></li>
+                 <li><a data-rel="tooltip" title="Follow us on Facebook" class="facebook" href="#"></a></li>
+                 <li><a data-rel="tooltip" title="Follow us on Youtube" class="youtube" href="#"></a></li>
+                 <li><a data-rel="tooltip" title="Follow us on Dribbble" class="dribbble" href="#"></a></li>
+                 <li><a data-rel="tooltip" title="Follow us on Pinterest" class="pinterest" href="#"></a></li>
+             </ul> -->
+        </div>
+    </div>
+</header>
+<!-- PRIMARY SITE NAVIGATION -->
+<div class="navbar-wrapper">
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="buttons-container">
+                </div>
+                <ul class="blue nav" id="css3-menu">
+                    <li>
+                        <a href="/home/index">Home</a>
+                    </li>
+                    <li>
+                        <a href="/home/about">About</a>
+                    </li>
+                    <li>
+                        <a href="/home/contact">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="/auth/login">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@RenderBody()
+<!-- FOOTER STARTS HERE -->
+<footer id="footer">
+    <div class="footer-top"></div>
+    <div class="footer-wrapper">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="span12">
+                    <div class="row show-grid">
+                        <!-- FOOTER: LOGO -->
+                        @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                        {
+                            <div class="span4">
+                                <!-- FOOTER: ADDRESS -->
+                                <address class="address">
+                                    <br /><i class="icon-map-marker icon-large"></i><br />
+                                    NeuRA<br />
+                                    <i>&nbsp;</i>Margarete Ainsworth Building<br />
+                                    <i>&nbsp;</i>Barker Street<br />
+                                    <i>&nbsp;</i>Randwick NSW 2031<br />
+                                    <i>&nbsp;</i>New Australia<br />
+                                    <span class="icon-email"></span><a href="mailto:clinical@hipfracture.com.au">Clinical Support</a><br />
+                                    <span class="icon-email"></span><a href="mailto:admin@hipfracture.com.au">Technical Support</a>
+                                </address>
+                            </div>
+                                <!-- FOOTER: ABOUT US -->
+                                <div class="span4 footer-center">
+                                    <h4 class="center-title">About Us</h4>
+                                    <p>The Australian Hip Fracture Registry is produced as a joint project with the Australian & New Zealand Hip Fracture Registry.</p>
+                                </div>
+                        }
+                        else
+                        {
+                            <div class="span4">
+                                <!-- FOOTER: ADDRESS -->
+                                <address class="address">
+                                    <br /><i class="icon-map-marker icon-large"></i><br />
+                                    Health Quality & Safety Commission<br />
+                                    <i>&nbsp;</i>Level 8, Customs House<br />
+                                    <i>&nbsp;</i>17-21 Whitmore Street<br />
+                                    <i>&nbsp;</i>Wellington<br />
+                                    <i>&nbsp;</i>New Zealand<br />
+                                    <span class="icon-email"></span><a href="mailto:clinical@hipfracture.co.nz">Clinical Support</a><br />
+                                    <span class="icon-email"></span><a href="mailto:admin@hipfracture.co.nz">Technical Support</a>
+                                </address>
+                            </div>
+                                <!-- FOOTER: ABOUT US -->
+                                <div class="span4 footer-center">
+                                    <h4 class="center-title">About Us</h4>
+                                    <p>The New Zealand Hip Fracture Registry is produced as a joint project with the Australian & New Zealand Hip Fracture Registry and is proudly co-funded by Health Quality & Safety Commission New Zealand and Osteoporosis New Zealand.</p>
+                                </div>
+                        }
+                        <!-- FOOTER: NAVIGATION LINKS -->
+                        <div class="span4 footer-right">
+                            <h4 class="center-title">Navigate</h4>
+                            <ul class="footer-navigate">
+                                <li>
+                                    <a href="/index">Home</a>
+                                </li>
+                                <li>
+                                    <a href="/about">About</a>
+                                </li>
+                                <li>
+                                    <a href="/contact">Contact</a>
+                                </li>
+                                <li>
+                                    <a href="/auth/login">Login</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row show-grid">
+                <!-- FOOTER: COPYRIGHT TEXT -->
+                <div class="span12">
+                    <p>Site built and maintained by <a href="http://www.so3.co">SO³</a>. Copyright 2014</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END FOOTER -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="/Content/static/js/bootstrap.js"></script>
+<script type="text/javascript" src="/Content/static/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/Content/static/js/jquery.isotope.js"></script>
+<script type="text/javascript" src="/Content/static/js/jquery.imagesloaded.min.js"></script>
+<script type="text/javascript" src="/Content/static/js/jquery.fancybox.pack.js?v=2.1.0"></script>
+<script type="text/javascript" src="/Content/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
+<script type="text/javascript" src="/Content/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script type="text/javascript" src="/Content/static/js/revolution.custom.js"></script>
+<script type="text/javascript" src="/Content/static/js/custom.js"></script>
+</body>
+</html>

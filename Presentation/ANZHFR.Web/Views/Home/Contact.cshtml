@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Contact Us";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+@using System.Configuration;
+
+<div class="page-title page-title-map stacked-title">
+    <div class="container">
+        <div class="row show-grid">
+            <div class="span12">
+                <h1>Contact @ConfigurationManager.AppSettings["Location"] Hip Fracture Registry</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MAIN CONTENT AREA -->
+<div class="main-wrapper">
+    <div class="main-content">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="span12" data-original-title="">
+                    <div class="clear_both"></div>
+                    <div class="col-wrapper">
+                        <div class="row show-grid">
+                            <!-- START LEFT-SIDE CONTACT FORM AREA -->
+                            <div class="contact-form span8">
+
+                                <form id="validForm" method="post" action="ProcessContact">
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputName">NAME<sup>*</sup></label>
+                                        <div class="controls">
+                                            <input type="text" class="span4" id="inputName" placeholder="Name" name="RName">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputHospital">@ConfigurationManager.AppSettings["Location"].ToUpper() HOSPITAL NAME<sup>*</sup></label>
+                                        <div class="controls">
+                                            <input type="text" class="span4" id="inputHospital" placeholder="Hospital Name" name="RHospital">
+                                            <span class="help-inline">Only @ConfigurationManager.AppSettings["Location"] hospitals can get access.</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputEmail">EMAIL<sup>*</sup></label>
+                                        <div class="controls">
+                                            <input type="text" class="span4" id="inputEmail" placeholder="Email" name="REmail">
+                                            <span class="help-inline">Used to set up your account.</span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label" for="inputPhone">PHONE<sup>*</sup></label>
+                                        <div class="controls">
+                                            <input type="text" class="span4" id="inputPhone" placeholder="Phone" name="RPhone">
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="textarea" class="control-label">COMMENT<sup>*</sup></label>
+                                        <div class="controls">
+                                            <textarea rows="4" class="span8" id="textarea" name="RComments"></textarea>
+                                            <span class="help-inline">Please write a comment</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group form-button-offset">
+                                        <input type="submit" class="btn" value="Send Message" />
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- END LEFT-SIDE CONTACT FORM AREA -->
+                            <!-- BEGIN RIGHT-SIDE CONTACT FORM AREA -->
+                            <div class="contact-info span3 offset1 sidebar-baloon">
+                                <h2>ANZHFR</h2>
+                                <!-- COMPANY ADDRESS -->
+                                <address>
+                                    NeuRA<br />
+                                    Margarete Ainsworth Building<br />
+                                    Barker Street<br />
+                                    Randwick NSW 2031<br />
+                                    Australia<br />
+                                    Web: <em><a href="http://www.neura.edu.au">www.neura.edu.au</a></em>
+                                </address>
+                                <div class="address-tick"></div>
+                            </div>
+                            <!-- END RIGHT-SIDE CONTACT FORM AREA -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MAIN CONTENT AREA: REDESIGN CUSTOM - RECENT TWEETS BAR -->
+        <div class="recent-tweets">
+            <div class="container">
+                <div class="row show-grid">
+                    <div class="span12 twitter-wrapper">
+                        <div id="nav_t"></div>
+                        <div class="tweets-slide"><ul class="slides"></ul></div>
+                        <a class="follow_img" href="#"><img alt="" src="/Content/static/img/follow.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,12 @@
+﻿@model ANZHFR.Web.Models.QualityPatientModel
+@using System.Configuration;
+
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - New patient";
+}
+
+@section scripts {
+    <script type="text/javascript" src="@Url.Content("/Scripts/patient.js")"></script>   
+}
+
+@Html.Partial("_CreateOrUpdate", Model)

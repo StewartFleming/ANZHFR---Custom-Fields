@@ -1,0 +1,86 @@
+﻿@model KiKhai.Admin.Models.UserModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-success">
+            @using (Html.BeginForm())
+            {
+
+                @Html.ValidationSummary(true)
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Page)
+                @Html.HiddenFor(model => model.FilterSearchName)
+
+                <div class="field-validation-error">@ViewBag.Error</div>
+                <div class="editor label-width100 form-width400">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Username)
+                    </div>
+                    @if (Model.Id > 0)
+                {
+                        <div class="editor-field">
+                            <input type="text" value="@Model.Username" name="Username" id="Username" readonly="readonly" />
+                        </div>
+
+                        @Html.HiddenFor(model => model.Password)
+                        @*
+
+                            <div class="editor-label">
+                                <label for="CurrentPassword">Current Password</label>
+                            </div>
+                            <div class="editor-field">
+                                <input type="password" name="CurrentPassword" id="CurrentPassword" data-val-required="The Current Password field is required." data-val-length-max="20" data-val-length="The field Current Password must be a string with a maximum length of 20." data-val="true">
+                                <span data-valmsg-replace="true" data-valmsg-for="CurrentPassword" class="field-validation-valid"></span>
+                            </div>
+
+                            <div class="editor-label">
+                                <label for="Password">New Password</label>
+                            </div>
+                            <div class="editor-field">
+                                @Html.PasswordFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>*@
+                    }
+                    else
+                    {
+                        <div class="editor-field">
+                            @Html.EditorFor(model => model.Username)
+                            @Html.ValidationMessageFor(model => model.Username)
+                        </div>
+                        <div class="editor-check">
+                            <img id="item-ok" class="item-check" src="/Images/accept.png" />
+                            <img id="item-loading" class="item-check" src="/Images/loading-small.gif" />
+                            <img id="item-failed" class="item-check" src="/Images/cancel.png" />
+                        </div>
+
+                        <div class="editor-label">
+                            @Html.LabelFor(model => model.Password)
+                        </div>
+                        <div class="editor-field">
+                            @Html.PasswordFor(model => model.Password)
+                            @Html.ValidationMessageFor(model => model.Password)
+                        </div>
+                    }
+
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.Name)
+                    </div>
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+
+                <div class="form-bottom margin-left100">
+                    <input type="submit" value="Save" class="btn btn-success btn-lg" id="save-btn" />
+                    <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+                    @if (Model.Id > 0)
+                {
+                        <input item-id="@Model.Id" data-toggle="modal" data-target="#myModal" type="button" value="Delete" class="btn btn-danger btn-lg" id="delete-btn" />
+                    }
+                </div>
+                <div class="clear"></div>
+            }
+        </div>
+    </div>
+</div>

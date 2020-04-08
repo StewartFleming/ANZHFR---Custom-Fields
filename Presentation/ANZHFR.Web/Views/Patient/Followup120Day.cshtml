@@ -1,0 +1,161 @@
+﻿@model PagedList.IPagedList<ANZHFR.Data.Models.Patient>
+@using PagedList.Mvc;
+@using ANZHFR.Web.ExtensionMethods;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "Patients due for 120 day followup at " + ViewBag.HospitalName;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (!string.IsNullOrEmpty(ViewBag.Message))
+        {
+            <div class="alert alert-info alert-dismissable">
+                <i class="fa fa-info"></i>
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                @ViewBag.Message
+            </div>
+        }
+        <div class="filter-box">
+            @using (Html.BeginForm("", "patient", FormMethod.Get))
+            {
+                <input placeholder="Name" style="width:250px;" type="text" value="@ViewBag.FilterSearch" name="search" id="search">
+
+                <span>&nbsp;</span><input type="submit" id="search-btn" class="btn-common btn-submit" value="Search">
+            }
+        </div>
+        <div class="buttons-box">
+            <input type="button" value="Create" class="btn-common  btn-create" id="add-btn" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            @if (ConfigurationManager.AppSettings["Location"] == "Australian")
+                            {
+                                <th>Medicare</th>
+                                <th>MRN/URN</th>
+                            }
+                            else
+                            {
+                                <th>National Health Index</th>
+                                <th>Event Number</th>
+                            }
+                            <th>Fracture Side</th>
+                            <th>Expected Date</th>
+                            <th class="header-right options-width2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a item-id="@item.ANZHFRID" title="Edit" class="link-edit" href="#">@item.Name @item.Surname</a>
+                                </td>
+                                <td>
+                                    @item.Medicare
+                                </td>
+                                <td>
+                                    @item.MRN
+                                </td>
+                                <td>
+                                    @if (item.FractureSide == "1")
+                                    {
+                                        @:Left
+                                    }
+                                    else
+                                    {
+                                        @:Right
+                                    }
+                                </td>
+                                <td>
+                                    @if (@item.ExpectedFollowup120.HasValue)
+                                    {
+                                        @item.ExpectedFollowup120.Value.ToString("dd-MMM-yyyy")
+                                    }
+                                </td>
+                                <td style="text-align:center;">
+                                    @*<a item-id="@item.ANZHFRID" title="View" class="link-view" href="#"><i class="fa fa-search"></i></a>*@
+                                    <a item-id="@item.ANZHFRID" title="Edit" class="link-edit" href="#"><i class="fa fa-edit"></i></a>
+                                    @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+                                    {
+                                        <a item-id="@item.ANZHFRID" title="Delete" class="link-delete" href="#myModal" data-toggle="modal"><i class="fa fa-times"></i></a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.FilterSearch, returnUrl = "/patient/Followup120Day" }))
+        </div>
+        <div class="alert alert-info alert-dismissable">
+            <i class="fa fa-info"></i>
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+            This view contains Patients who are <ul>
+                <li>
+                    120 days from the start date which is either <ul>
+                        <li><strong>Date of Admission</strong> or</li>
+                        <li><strong>Date of In Hospital Fracture</strong> or </li>
+                        <li><strong>Transfer Hospital ED Date</strong></li>
+                    </ul>
+                </li>
+                <li>have not got a date for <strong>120 Day Followup</strong></li>
+                <li> have not been marked as <strong>Cannot Follow Up</strong> and </li>
+                <li>are not listed as Deceased in the <strong>Discharge</strong> fields.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        /**********************************************************************/
+        jQuery("#add-btn").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(), 'search': jQuery("#search").val() };
+            window.location.href = "/patient/create?" + EncodeQueryData(data);
+        });
+
+        /**********************************************************************/
+        jQuery(".link-view").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(), 'search': jQuery("#search").val() };
+            window.location.href = "/patient/view/" + jQuery(this).attr("item-id") + "?" + EncodeQueryData(data);
+        });
+
+        /**********************************************************************/
+        jQuery(".link-edit").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(), 'search': jQuery("#search").val(), 'returnUrl': "Followup120Day" };
+            window.location.href = "/patient/edit/" + jQuery(this).attr("item-id") + "?" + EncodeQueryData(data);
+        });
+
+        /**********************************************************************/
+        jQuery(".link-delete").on("click", function (event) {
+            event.preventDefault();
+            jQuery("#DeleteItemId").val(jQuery(this).attr("item-id"));
+        });
+
+        /**********************************************************************/
+        jQuery("#con-delete-btn").on("click", function (event) {
+            event.preventDefault();
+            var data = { 'page': GetReturnPageNumber(true), 'search': jQuery("#search").val() };
+            window.location.href = "/patient/delete/" + jQuery("#DeleteItemId").val() + "?" + EncodeQueryData(data);
+        });
+    </script>
+}

@@ -1,0 +1,108 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Home Page";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+}
+
+<!-- MAIN CONTENT AREA -->
+<div class="main-wrapper">
+    <div class="main-content">
+        <div class="container">
+
+                
+            <div class="row main-block">
+                <div class="span12">
+                    @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+                    {
+                        <h1>Welcome to the <span>@ConfigurationManager.AppSettings["Location"] Hip Fracture Registry Demo Site</span></h1>
+                        <p>This site is used to demonstate the fields and capabilities of the @ConfigurationManager.AppSettings["Location"] Hip Fracture Registry.</p>
+                        <p>Only dummy data is allowed on the site and it is regularly purged of user entered data.</p>
+                        <p>If you are interested in seeing what the registry looks like, please apply for a demonstration account.</p>
+                        
+                    <!-- MAIN CONTENT AREA: REDESIGN CUSTOM - HERO LIST -->
+                    <div class="row show-grid hero-list features-list">
+                        <div class="span3">
+                            <div class="image-wrapper"> 
+                                <img alt="" src="/Content/static/img/home_grid.png" />
+                            </div>
+                            <h2>Guideline supporting dataset</h2>
+                            <p>
+                                Collects the ANZHFR dataset designed to improve care and capture measureable quality indicators.
+                            </p>
+                        </div>
+                        <div class="span3">
+                            <div class="image-wrapper">
+                                <img alt="" src="/Content/static/img/home_gears.png" />
+                            </div>
+                            <h2>Import and export your own data</h2>
+                            <p>
+                                Data can be uploaded from an excel spreadsheet and exported in the same format.
+                            </p>
+                        </div>
+                        <div class="span3">
+                            <div class="image-wrapper">
+                                <img alt="" src="/Content/static/img/home_arrow.png" />
+                            </div>
+                            <h2>Instant Dynamic Reporting</h2>
+                            <p>
+                                Dozens of standard reports allow you to look at your own data in real time and compare against National averages.
+                            </p>
+                        </div>
+                        <div class="span3">
+                            <div class="image-wrapper">
+                                <img alt="" src="/Content/static/img/home_arrows.png" />
+                            </div>
+                            <h2>Responsive Design</h2>
+                            <p>
+                                Ultra-responsive design ensures the registry is available on almost any device.
+                            </p>
+                        </div>
+                    </div>
+} else
+                    {
+                    <div class="row">
+                        <p></p>
+                        <h1>Welcome to the <span>@ConfigurationManager.AppSettings["Location"] Hip Fracture Registry</span></h1>
+                        <p>This site is only available to <b>registered users</b> from <b>approved hospitals</b> who have completed their <b>ethics process</b>.</p>
+                        <p>If you have not completed your ethics, you can still record data locally on an excel spreadsheet which can be uploaded once ethics is approved.</p>
+                        <p>To access the spreadsheet format, go to the <a href="http://www.demo.hipfracture.com.au">Demonstration</a> website and apply for an account. This will
+                        let you enter dummy data and give you access to the spreadhsheet format for importing data.</p>
+                    </div>
+
+                    }
+                </div>
+            </div>
+
+            <!-- FREE TRIAL PROMO BOX -->
+            <div class="hero-unit dark-hero">
+                <h1><span>Signup</span> for a <span>Demonstration Account</span> Now</h1>
+                <ul class="unstyled">
+                    <li>Only available to @ConfigurationManager.AppSettings["Location"] Hospitals</li>
+                    <li>|</li>
+                    <li>All accounts will be verified by staff</li>
+                    <li>|</li>
+                    <li>Accounts are free to contributing hospitals</li>
+                </ul>
+            @if (ConfigurationManager.AppSettings["Type"] == "Demo")
+            {
+                 <a class="btn btn-large btn-primary" href="/home/contact">Sign Up</a>
+            }
+            else
+            {
+                if (@ConfigurationManager.AppSettings["Location"] == "Australian")
+                 {
+                    <a class="btn btn-large btn-primary" href="http://demo.hipfracture.com.au/home/contact">Sign Up</a>
+                 }
+                 else
+                 {
+                    <a class="btn btn-large btn-primary" href="http://demo.hipfracture.co.nz/home/contact">Sign Up</a>
+                 }
+                 
+            }
+             
+            </div>
+
+        </div>
+    </div>
+    
+</div>

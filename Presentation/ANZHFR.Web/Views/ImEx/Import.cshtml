@@ -1,0 +1,222 @@
+﻿@using System.Configuration;
+
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Import";
+}
+
+@section styles {
+    <link href="~/Content/uploadifive/uploadifive.css" rel="stylesheet" />
+}
+
+<div class="file-upload-form">
+    @using (Html.BeginForm("Upload", "ImEx", FormMethod.Post, new { @class = "import-patients-form" }))
+    {
+        <div class="editor label-width100">
+
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="input">
+                        <div class="" style="font-size:20px;">
+                            <strong>Step 1: </strong>Select the File Format:
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <select id="fileFormat" name="fileFormat" class="">
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020" selected>2020</option>
+                    </select>
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-md-2">
+                    <br />
+                    <div cclass="" style="font-size:20px;">
+                        <strong>Step 2: </strong>Select a file to import:
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="">
+                        <input type="file" name="file_upload" id="file_upload" class="file_upload" />
+                        <input type="button" id="upload-btn" class="btn-common btn-submit btn-upload" value="Upload" style="display:none;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div style="margin-top:15px;" class="status"></div>
+
+<br />
+
+<div class="uploadstatus" style="display:none;">
+    <hr />
+
+    <h5><strong>Success:</strong></h5>
+    <ul class="successful-imports"></ul>
+
+    <br />
+
+    <h5><strong>Errors:</strong></h5>
+    <ol class="import-errors"></ol>
+</div>
+<div class="col-md-3">
+    <h3>
+        2020 Import File
+    </h3>
+    <p>
+        The 2020 import file no longer collects 120-Day Follow up "Weight bearing" (BK) but now includes a column for "Day 1 Walking" (AT) and Death Date (BO). Assessment.
+    </p>
+    <p>
+        All other columns remain the same as 2019.
+    </p>
+    <p>Here are the sample files for this version.</p>
+    <p><strong>Australia: </strong><a href="~/Templates/export-patient-2020.xlsx">2020 Australian Export Template</a></p>
+    <p><strong>New Zealand: </strong><a href="~/Templates/export-patient-NZ-2020.xlsx">2020 New Zealand Export Template</a></p>
+</div>
+<div class="col-md-3">
+    <h3>
+        2019 Import File
+    </h3>
+    <p>
+        The 2019 import file no longer collects 30-Day Follow up fields but now includes a column for Malnutrition Assessment.
+    </p>
+    <p>
+        All other columns remain the same as 2018.
+    </p>
+    <p>Here are the sample files for this version.</p>
+    <p><strong>Australia: </strong><a href="~/Templates/export-patient-2019.xlsx">2019 Australian Export Template</a></p>
+    <p><strong>New Zealand: </strong><a href="~/Templates/export-patient-NZ-2019.xlsx">2019 New Zealand Export Template</a></p>
+</div>
+<div class="col-md-3">
+    <h3>
+        2018 Import File
+    </h3>
+    <p>
+        The 2018 import file no longer collects Interoperative Fracture but now includes a column for Delirium Assessment.
+    </p>
+    <p>
+        It also has optional columns for "Patient Informed of Registry Inclusion" and "Cannot Follow Up"
+    </p>
+    <p>Here are the sample files for this version.</p>
+    <p><strong>Australia: </strong><a href="~/Templates/export-patient-2018.xlsx">2018 Australian Export Template</a></p>
+    <p><strong>New Zealand: </strong><a href="~/Templates/export-patient-NZ-2018.xlsx">2018 New Zealand Export Template</a></p>
+</div>
+<div class="col-md-3">
+    <h3>
+        2017 Import File
+    </h3>
+    <p>
+        The 2017 import file was used from 1st January 2017 until 31st December 2017.
+    </p><p>
+        This file format includes the new fields of includes Pain Assessment, Pain Management and Cognitive Assessment.
+    </p>
+    <p>Here are the sample files for this version.</p>
+    <p><strong>Australia: </strong><a href="~/Templates/export-patient-2017.xlsx">2017 Australian Export Template</a></p>
+    <p><strong>New Zealand: </strong><a href="~/Templates/export-patient-NZ-2017.xlsx">2017 New Zealand Export Template</a></p>
+</div>
+
+@section scripts {
+    <script src="~/Content/uploadifive/jquery.uploadifive.js"></script>
+
+    <script>
+
+        (function (j) {
+            j(function () {
+                var jFileUpload = j('#file_upload');
+
+                jFileUpload.uploadifive({
+                    'formData': { 'hospitalId': '@ViewBag.Hospital' },
+                    'method': 'post',
+                    'fileTypeDesc': 'Spreadsheets',
+                    'fileTypeExts': '*.xls; *.xlsx',
+                    'uploadScript': 'Upload',
+                    'fileObjName': 'filedata',
+                    'auto': false,
+                    'height': 40,
+                    'buttonText': 'Select File',
+                    'multi': false,
+                    'onSelect': function () {
+                        j('.btn-upload').fadeIn();
+                    },
+                    'onCancel': function () {
+                        j('.btn-upload').fadeOut();
+                    },
+                    'onUploadComplete': function (file, data) {
+                        j('.status').show().html("File upload complete...");
+                        setTimeout(function () {
+                            var dots = '...';
+
+                            setInterval(function () {
+                                if (dots == ".") {
+                                    dots = "..";
+                                }
+                                else if (dots == "..") {
+                                    dots = "...";
+                                }
+                                else if (dots == "...") {
+                                    dots = " ";
+                                }
+                                else if (dots == " ") {
+                                    dots = ".";
+                                }
+
+                                j('.status').html("Importing patients " + dots);
+                            }, 1000);
+
+                            j('.uploadstatus').fadeOut();
+                            j('.uploadstatus .successful-imports').html("");
+                            j('.uploadstatus .import-errors').html("");
+
+                            // Make sure the format is sent correctly
+                            var dataObj = JSON.parse(data);
+                            dataObj.fileFormat = $('#fileFormat').val();
+                            data = JSON.stringify(dataObj);
+
+                            j.ajax({
+                                url: "@Url.Action("ImportData", "ImEx")",
+                                type: "POST",
+                                data: JSON.parse(data)
+                            }).done(function (data, textStatus, jqXHR) {
+                                j('.status').fadeOut();
+                                showStatus(data);
+                            });
+                        });
+                    }
+                });
+
+                j('.btn-upload').click(function () {
+                    //jFileUpload.uploadifive('disable', true);
+                    jFileUpload.uploadifive('upload');
+                });
+
+            });
+
+            var showStatus = function (data) {
+                var html = "";
+                var messages = JSON.parse(JSON.stringify(data));
+
+                for (var i = 0; i < messages.success.length; i++) {
+                    html += "<li>" + messages.success[i] + "</li>";
+                }
+
+                j('.uploadstatus .successful-imports').html(html);
+
+                html = "";
+                for (var i = 0; i < messages.errors.length; i++) {
+                    html += "<li>" + messages.errors[i] + "</li>";
+                }
+
+                j('.uploadstatus .import-errors').html(html);
+
+                j('.uploadstatus').fadeIn();
+            };
+
+        })(jQuery);
+    </script>
+}

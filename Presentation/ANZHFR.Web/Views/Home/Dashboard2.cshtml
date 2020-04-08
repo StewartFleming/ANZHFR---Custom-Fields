@@ -1,0 +1,322 @@
+﻿@using System.Configuration;
+@section styles {
+    <link href="@Url.Content("~/Content/dashboard.css")" rel="stylesheet" type="text/css" />
+    
+}
+@{
+    ViewBag.Title = "Welcome to the " + ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry for " + ViewBag.HospitalName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Styles.Render("~/Content/dashboard.css")
+@Html.Hidden("DashboardMonth", ConfigurationManager.AppSettings["DashboardMonth"])
+@Html.Hidden("DashboardYear", ConfigurationManager.AppSettings["DashboardYear"])
+<!-- Solid boxes -->
+<div class="row">
+    <div class="col-md-4">
+        <!-- Primary box -->
+        <div class="box box-solid box-success bg-green">
+            <div class="box-header" style="">
+
+                <div class="box-title" style="text-align:center;">Hospital Snapshot</div>
+
+            </div>
+            <div class="box-body">
+                <table width="100%" border="1" class="dashboard_table">
+                    <tr>
+                        <td class="bg-green" width="50%" valign="top">
+                            <h3>Active Patients</h3>
+                            <p style="font-size:40pt; text-decoration-line:underline;"><a href="/patient/activepatients">@ViewBag.ActivePatients</a></p>
+                        </td>
+                        <td class="bg-green" valign="top">
+                            <h3>Last Modified</h3>
+                            <p style="font-size:20pt;">@Html.Raw(ViewBag.LastModified)</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bg-green" valign="top">
+                            <h3>@ViewBag.Year Records</h3>
+                            <p style="font-size:40pt;">@ViewBag.CurrentYear</p>
+                        </td>
+                        <td class="bg-green" valign="top">
+                            <h3>All Records</h3>
+                            <p style="font-size:40pt; text-decoration-line:underline;"><a href="/patient">@ViewBag.AllPatients</a></p>
+                        </td>
+                    </tr>
+                </table>
+
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- /.col -->
+
+
+    <div class="col-md-8">
+        <div class="box box-solid bg-aqua">
+
+            <div class="box-body">
+                <table width="100%" class="dashboard_table_header">
+                    <tr>
+                        <td width="60%" colspan="3">
+                            <div class="selector_label">Patient Type:</div>
+                            <div class="checkboxes">
+                                <label for="ED"><input type="checkbox" name="patient_type" id="ED" value="ED" checked="checked" onclick="RefreshData();" /> <span>Admitted Via ED</span></label>
+                                <label for="Transferred"><input type="checkbox" name="patient_type" value="Transferred" id="Transferred" checked="checked" onclick="RefreshData();"/> <span>Transferred In</span></label>
+                            </div>
+                            <div class="checkboxes">
+                                <label for="Fall"><input type="checkbox" name="patient_type" id="Fall" value="Fall" checked="checked" onclick="RefreshData();"/> <span>Inpatient Fall </span> </label>
+                                <label for="Other"><input type="checkbox" name="patient_type" id="Other" value="Other" checked="checked" onclick="RefreshData();"/> <span>Other/Unknown</span></label>
+                            </div>
+                        </td>
+                        <td width="40%" colspan="2">
+                            <table class="border_table_hidden" >
+                                <tr>
+                                    <td  colspan="2">
+                                        <div class="selector_label">Period:</div>
+                                        <select id="period" class="drop_down" onchange="UpdateDates(); RefreshData();">
+                                            <option value="ThisYear" selected="selected">This Year</option>
+                                            <option value="LastYear">Last Year</option>
+                                            <option value="Last30">Last 30 Days</option>
+                                            <option value="Last120">Last 120 Days</option>
+                                            <option value="Last12">Last 12 months</option>
+                                            <option value="All">All Records</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color: #00c0ef "><div class="selector_label">From: </div><input class="datefield date-only" type="text" name="from_date" size="8" id="from_date" onchange="RefreshData();" /></td>
+                                    <td style="background-color: #00c0ef"><div class="selector_label">To: </div><input class="date-only datefield" type="text" name="to_date" size="8" id="to_date" onchange="RefreshData();" /></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <table border="1" width="100%" class="dashboard_table" id="Dash1">
+                    <tr>
+                        <td width="20%" style="background-color:cornflowerblue;">Select Records</td>
+                        <td width="20%" style="background-color:cornflowerblue;">Time in<br />ED (hrs)</td>
+                        <td width="20%" style="background-color:cornflowerblue;">Time to<br />Surgery (hrs)</td>
+                        <td width="20%" style="background-color:cornflowerblue;">Acute Length of<br />Stay (days)</td>
+                        <td width="20%" style="background-color:cornflowerblue;">Hospital Length of<br />Stay (days)</td>
+                    </tr>
+                    <tr>
+                        <td class="dashboard_datacell_title">Average</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dashboard_datacell_title">Median</td>
+                        <td class="dashboard_datacell_alt">-</td>
+                        <td class="dashboard_datacell_alt">-</td>
+                        <td class="dashboard_datacell_alt">-</td>
+                        <td class="dashboard_datacell_alt">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dashboard_datacell_title">Shortest</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                        <td class="dashboard_datacell">-</td>
+                    </tr>
+                    <tr>
+                        <td class="dashboard_datacell_title">Longest</td>
+                        <td style="background-color:lavender; color:black; font-size:20pt;">-</td>
+                        <td style="background-color:lavender; color:black; font-size:20pt;">-</td>
+                        <td style="background-color:lavender; color:black; font-size:20pt;">-</td>
+                        <td style="background-color:lavender; color:black; font-size:20pt;">-</td>
+                    </tr>
+                </table>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-solid bg-aqua">
+            <div class="box-body">
+                <table border="1" width="100%" class="dashboard_table">
+                    <tr>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS1</h3><h4>Care at Presentation</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS2</h3><h4>Pain Management</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS3</h3><h4>Orthogeriatric Model of Care</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS4</h3><h4>Timing of Surgery</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS5</h3><h4>Mobilisation & Weight Bearing</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS6</h3><h4>Minimising Risk of Another Fracture</h4></td>
+                        <td width="14%" style="background-color:cornflowerblue;"><h3>QS7</h3><h4>Transition from Hospital Care</h4></td>
+                    </tr>
+                </table>
+                <table border="1" width="100%" class="dashboard_table" id="Dash2">
+                    <tr>
+                        <td width="14%" style="background-color:lavender; color:black;" rowspan="3">Cognitive Assessment prior to surgery<h3>-</h3></td>
+                        <td width="14%" style="background-color:lavender; color:black;">Pain Assessment within 30 minutes<h4>-</h4></td>
+                        <td width="14%" style="background-color:lavender; color:black;" rowspan="3">Assessed by geriatric medicine<h3>-</h3></td>
+                        <td width="14%" style="background-color:lavender; color:black;" rowspan="3">Surgery Within 48 hours<h3>-</h3></td>
+                        <td width="14%" style="background-color:lavender; color:black;">Day 1 Mobilisation Opportunity<h5>-</h5></td>
+                        <td width="14%" style="background-color:lavender; color:black;">Bone Medication on Discharge<h4>-</h4></td>
+                        <td width="14%" style="background-color:lavender; color:black;" rowspan="3">Patients returning to Private Residence &#64; 120 Days<h3>-</h3></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:lightgrey; color:black;" rowspan="2">Nerve Block before or at surgery<h4>-</h4></td>
+                        <td style="background-color:lightgrey; color:black;">Unrestricted Weight Bearing<h5>-</h5></td>
+                        <td style="background-color:lightgrey; color:black;" rowspan="2">Specialist Falls Assessment<h4>-</h4></td>
+                    </tr>
+                    <tr>
+                        <td style="background-color:lavender; color:black;">New Pressure Injuries<h5>-</h5></td>
+                    </tr>
+                </table>
+            </div><!-- /.box-body -->
+        </div>
+    </div>
+</div>
+    @section scripts {
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="~/Scripts/drawChart.js"></script>
+        <script>
+            function UpdateDates() {
+                var period = $('#period').children("option:selected").val();
+                today = new Date();
+                fromdate = new Date();
+                currentyear = today.year;
+                switch (period) {
+                    case "All":
+                        $('#from_date').val('');
+                        $('#to_date').val('');
+                        break;
+                    case 'Last30':
+                        $('#to_date').datepicker('setDate', today);
+                        fromdate.setDate(fromdate.getDate() - 30);
+                        $('#from_date').datepicker('setDate', fromdate);
+                        break;
+                    case 'Last120':
+                        $('#to_date').datepicker('setDate', today);
+                        fromdate.setDate(fromdate.getDate() - 120);
+                        $('#from_date').datepicker('setDate', fromdate);
+                        break;
+                    case 'Last12':
+                        $('#to_date').datepicker('setDate', today);
+                        fromdate.setDate(fromdate.getDate() - 365);
+                        $('#from_date').datepicker('setDate', fromdate);
+                        break;
+                    case 'ThisYear':
+                        $('#to_date').datepicker('setDate', today);
+                        thisyear = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0);
+                        $('#from_date').datepicker('setDate', thisyear);
+                        break;
+                    case 'LastYear':
+                        lyear = today.getFullYear();
+                        lastyear = new Date(lyear-1, 11, 31, 1, 1, 1, 1);
+                        $('#to_date').datepicker('setDate', lastyear);
+                        thisyear = new Date(lyear-1, 0, 1, 1, 1, 1, 1);
+                        $('#from_date').datepicker('setDate', thisyear);
+                        break;
+                    default:
+                        $('#from_date').val('');
+                        $('#to_date').val('');
+                }
+            }
+
+            function RefreshData() {
+                var patientTypes = $("input[name='patient_type']").serializeArray();
+                var ptypes ='';
+                jQuery.each(patientTypes, function (i, field) {
+                    ptypes += field.value;
+                });
+                var period = $('#period').children("option:selected").val();
+                var from_date = $('#from_date').datepicker({ dateFormat: 'yy-mm-dd' }).val();
+                var to_date = $('#to_date').val();
+                $.ajax({
+                    url: '@Url.Action("Dashboard_Refresh/", "home")',
+                    type: "GET",
+                    cache: false,
+                    data: { 'PatientTypes': ptypes, 'Period': period, 'From': from_date, 'To':to_date },
+                    success: function (result) {
+                        var res = result.split(":");
+                        var html = '';
+                        html += '<tr>';
+                        html += '<td width="20%" style="background-color:cornflowerblue; font-size: 15pt;">' + res[0] + ' records</td>';
+                        html += '<td width="20%" style="background-color:cornflowerblue;">Time in<br />ED (hrs) [' + res[1] + ']</td>';
+                        html += '<td width="20%" style="background-color:cornflowerblue;">Time to<br />Surgery (hrs) [' + res[8] + ']</td>';
+                        html += '<td width="20%" style="background-color:cornflowerblue;">Acute Length of<br />Stay (days) [' + res[15] + ']</td>';
+                        html += '<td width="20%" style="background-color:cornflowerblue;">Hospital Length of<br />Stay (days) [' + res[22] + ']</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<td class="dashboard_datacell_title">Average</td>';
+                        html += '<td class="dashboard_datacell">' + res[2] + '</td>';
+                        html += '<td class="dashboard_datacell">' + res[9] + '</td>';
+                        html += '<td class="dashboard_datacell">' + res[16] + '</td>';
+                        html += '<td class="dashboard_datacell">' + res[23] + '</td>';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<td class="dashboard_datacell_title">Median</td>';
+                        html += '<td class="dashboard_datacell_alt">' + res[3] + '</td>';
+                        html += '<td class="dashboard_datacell_alt">' + res[10] + '</td>';
+                        html += '<td class="dashboard_datacell_alt">' + res[17] + '</td > ';
+                        html += '<td class="dashboard_datacell_alt">' + res[24] + '</td > ';
+                        html += '</tr>';
+                        html += '<tr>';
+                        html += '<td class="dashboard_datacell_title">Shortest</td>';
+                        if (res[5] == "-") { html += '<td class="dashboard_datacell">' + res[4] + '</td>'; } else
+                        {html += '<td class="dashboard_datacell"><a href="/patient/edit/' +res[5] + '">'+ res[4] + '</a></td>';}
+                        if (res[12] == "-") { html += '<td class="dashboard_datacell">' + res[11] + '</td>'; } else
+                        { html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[12] + '">' + res[11] + '</a></td>'; }
+                        if (res[19] == "-") { html += '<td class="dashboard_datacell">' + res[18] + '</td>'; } else {
+                            html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[19] + '">' + res[18] + '</a></td>';}
+                        if (res[26] == "-") { html += '<td class="dashboard_datacell">' + res[25] + '</td>'; } else {
+                            html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[26] + '">' + res[25] + '</a></td>';}
+                        html += '</tr>';
+
+                        html += '<tr>';
+                        html += '<td class="dashboard_datacell_title">Longest</td>';
+                        if (res[7] == "-") { html += '<td class="dashboard_datacell">' + res[6] + '</td>'} else
+                        { html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[7] + '">' + res[6] + '</a></td>'; }
+                        if (res[14] == "-") { html += '<td class="dashboard_datacell">' + res[13] + '</td>' } else
+                        { html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[14] + '">' + res[13] + '</a></td>'; }
+                        if (res[21] == "-") { html += '<td class="dashboard_datacell">' + res[20] + '</td>' } else
+                        { html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[21] + '">' + res[20] + '</a></td>'; };
+                        if (res[28] == "-") { html += '<td class="dashboard_datacell">' + res[27] + '</td>' } else
+                        { html += '<td class="dashboard_datacell"><a href="/patient/edit/' + res[28] + '">' + res[27] + '</a></td>'; };
+                        html += '</tr>';
+                        $('#Dash1').html(html);
+
+                        var html2 = '';
+                        html2 += '<tr>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;" rowspan="3">Cognitive Assessment prior to surgery (' + res[29] + ')<h3>' + res[30] + '</h3></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;">Pain Assessment<br /> within 30 minutes (' + res[31] + ')<h4>' + res[32] + '</h4></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;" rowspan="3">Assessed by geriatric medicine (' + res[35] + ')<h3>' + res[36] + '</h3></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;" rowspan="3">Surgery Within 48 hours (' + res[37] + ')<h3>' + res[38] + '</h3></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;">Day 1 Mobilisation Opportunity (' + res[39] + ')<h5>' + res[40] + '</h5></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;">Bone Medication on Discharge (' + res[45] + ')<h4>' + res[46] + '</h4></td>';
+                        html2 += '<td width="14%" style="background-color:lavender; color:black;" rowspan="3">Patients returning to Private Residence &#64; 120 Days (' + res[49] + ')<h3>' + res[50] + '</h3></td>';
+                        html2 += '</tr>';
+                        html2 += '<tr>';
+                        html2 += '<td style="background-color:lightgrey; color:black;" rowspan="2">Nerve Block before<br /> or at surgery (' + res[33] + ')<h4>' + res[34] + '</h4></td>';
+                        html2 += '<td style="background-color:lightgrey; color:black;">Unrestricted Weight Bearing (' + res[41] + ')<h5>' + res[42] + '</h5></td>';
+                        html2 += '<td style="background-color:lightgrey; color:black;" rowspan="2">Specialist Falls Assessment (' + res[47] + ')<h4>' + res[48] + '</h4></td>';
+                        html2 += '</tr>';
+                        html2 += '<tr>';
+                        html2 += '<td style="background-color:lavender; color:black;">New Pressure Injuries (' + res[43] + ')<h5>' + res[44] + '</h5></td>';
+                        html2 += '</tr>';
+                        $('#Dash2').html(html2);
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+            $(document).ready(function () {
+                UpdateDates();
+                RefeshData();
+            });
+
+            $(window).load(function () {
+                RefreshData();
+            });
+            $('.date-only').datepicker({
+                dateFormat: 'dd/mm/yy',
+                pickTime: false
+            });
+        </script>
+    }

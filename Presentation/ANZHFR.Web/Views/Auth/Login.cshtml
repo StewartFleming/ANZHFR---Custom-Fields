@@ -1,0 +1,140 @@
+﻿@using System.Configuration;
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+<div class="form-box" id="login-box">
+    <div class="header">Sign In</div>
+    <form action="#" method="post">
+        @if (ConfigurationManager.AppSettings["SiteDown"] == "")
+        {
+            <div class="body bg-gray">
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Message))
+                {
+                    <div class="alert alert-info">
+                        @ViewBag.Message
+                    </div>
+                }
+                <div style="color: #ff0000;text-align: center;" id="login-failed"></div>
+                <div class="form-group">
+                    <input id="email" name="email" type="email" placeholder="Email" class="form-control" autofocus />
+                    <div id="email-err" style="display: none; color: #ff0000; padding-bottom: 3px; padding-top: 3px;">Email Required</div>
+                </div>
+                <div class="form-group">
+                    <input id="password" name="password" type="password" value="" placeholder="Password" class="form-control">
+                    <div id="password-err" style="display: none; color: #ff0000; padding-bottom: 3px; padding-top: 3px;">Password Required</div>
+                </div>
+            </div>
+            <div class="footer">
+                <button id="login-btn" type="submit" class="btn bg-olive btn-block">Sign me in</button>
+                <div id="auth-mes" class="btn btn-success  btn-block" style=" display:none; padding:10px;text-align:center; margin-top:0; cursor:default">
+                    Authenticating...
+                </div>
+                @Html.ActionLink("Forgot Password", "ForgotPassword")
+            </div>
+        }
+        else
+        {
+            <div class="body bg-gray">
+                <p> The site is currently offline. </p>
+                <p> @ConfigurationManager.AppSettings["SiteDown"] </p>
+            </div>
+            <div class="footer">
+                <input type="button" value="Back" class="btn btn-warning btn-lg" id="cancel-btn" />
+            </div>
+
+        }
+    </form>
+
+    <div class="login_bottom">
+    </div>
+
+    @*            <div class="margin text-center">
+            <span>Sign in using social networks</span>
+            <br />
+            <button class="btn bg-light-blue btn-circle"><i class="fa fa-facebook"></i></button>
+            <button class="btn bg-aqua btn-circle"><i class="fa fa-twitter"></i></button>
+            <button class="btn bg-red btn-circle"><i class="fa fa-google-plus"></i></button>
+        </div>*@
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        jQuery(function () {
+
+            /***************************Login Action*************************************/
+            jQuery("#login-btn").on("click", function (event) {
+                event.preventDefault();
+
+                jQuery('#login-failed').html("");
+                jQuery('#email-err').hide();
+                jQuery('#password-err').hide();
+
+                var email = jQuery("#email").val();
+                var password = jQuery("#password").val();
+                var returnUrl = getUrlParameter("returnUrl");
+
+                var valid = true;
+                if (email == "" || email == null) {
+                    valid = false;
+                    jQuery("#email-err").show();
+                }
+
+                if (password == "" || password == null) {
+                    valid = false;
+                    jQuery("#password-err").show();
+                }
+
+                if (!valid) return;
+
+                //loging effect starts
+                jQuery("#auth-mes").show();
+                jQuery("#login-btn").hide();
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/Auth/Login',
+                    data: { "email": email, "password": password, "returnUrl": returnUrl },
+                    success: function (data) {
+                        if (data.Result) {
+                            jQuery("#auth-mes").html("Login Successful. Redirecting...");
+                            window.location.href = data.Url;
+                        }
+                        else {
+                            jQuery("#auth-mes").hide();
+                            jQuery("#login-btn").show();
+                            jQuery('#login-failed').html(data.Message);
+                            jQuery("#password").val("");
+                        }
+                    },
+                    error: function (e) {
+                        jQuery("#auth-mes").hide();
+                        jQuery("#login-btn").show();
+                    }
+                });
+            });
+        });
+
+        /**********************************************************************/
+        jQuery("#cancel-btn").on("click", function (event) {
+            event.preventDefault();
+            window.location.href = "/";
+        });
+
+        function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0].toLowerCase() === sParam.toLowerCase()) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        }
+    </script>
+}

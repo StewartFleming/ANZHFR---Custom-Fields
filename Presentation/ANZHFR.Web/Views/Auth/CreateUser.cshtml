@@ -1,0 +1,58 @@
+﻿@model KiKhai.Admin.Models.UserModel
+
+@{
+    ViewBag.Title = "Create New User";
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+
+            /**********************************************************************/
+            jQuery("#cancel-btn").on("click", function (event) {
+                event.preventDefault();
+
+                var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#FilterSearch").val() };
+                window.location.href = "/auth/users?" + EncodeQueryData(data);
+            });
+
+            /******************* check user name  ***************************************************/
+            jQuery("#Username").on("change", function (event) {
+                event.preventDefault();
+                
+                jQuery("#item-ok").hide();
+                RemoveErrorMessage("Username");
+                var name = jQuery("#Username").val();
+
+                if (name == "" || name == null) {
+                    return;
+                }
+
+                jQuery("#item-loading").show();
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/Auth/CheckUserName/',
+                    data: { 'username': name },
+                    success: function (data) {
+                        //alert(data.Result);
+                        jQuery("#item-loading").hide();
+                        if (data.Result) {
+                            jQuery("#item-ok").show();
+                        }
+                        else {
+                            jQuery("#Username").val("");
+                            SetErrorMessage("Username", name + " - aleady taken. Please try with different name");
+                        }
+                    },
+                    error: function (e) {
+                        jQuery("#item-loading").hide();
+                        //alert("Ok");
+                    }
+                });
+            });
+    </script>
+}
+
+@Html.Partial("_CreateOrUpdateUser", Model)
+

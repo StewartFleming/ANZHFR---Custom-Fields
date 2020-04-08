@@ -1,0 +1,361 @@
+﻿@model PagedList.IPagedList<ANZHFR.Data.Models.Synonym>
+@using PagedList.Mvc;
+@using ANZHFR.Data.Models;
+
+@{
+	ViewBag.Title = "Index";
+}
+
+<div class="synonyms-main">
+	<div class="row">
+		<div class="col-md-12">
+			@if (!string.IsNullOrEmpty(ViewBag.Message))
+			{
+				<div class="alert alert-info alert-dismissable">
+					<i class="fa fa-info"></i>
+					<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+					@ViewBag.Message
+				</div>
+			}
+			<div class="filter-box-container">
+				<div class="filter-box form-synonym">
+					<input type="hidden" name="SynonymId" id="SynonymId" value="@ViewBag.SynonymId" />
+
+					@using (Html.BeginForm("add", "synonym", FormMethod.Post))
+					{
+						<input type="hidden" name="FilterSearch" id="FilterSearch" value="@ViewBag.FilterSearch" />
+						<input type="hidden" name="page" id="page" />
+						<input placeholder="Word" style="width:250px;" type="text" value="@ViewBag.Word" name="word" id="word" />
+						<span>&nbsp;</span>
+						<input type="button" id="add-btn" class="btn-common btn-submit" value="Add" />
+						<input type="button" id="cancel-btn" class="btn-common btn-cancel hidden" value="Cancel" />
+					}
+				</div>
+
+				<div class="filter-box float-right">
+					@using (Html.BeginForm("", "synonym", FormMethod.Get))
+					{
+						<input placeholder="Word" style="width:250px;" type="text" value="@ViewBag.FilterSearch" name="search" id="search" />
+						<span>&nbsp;</span>
+						<input type="submit" id="search-btn" class="btn-common btn-submit" value="Search" />
+					}
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="box">
+				<div class="box-body table-responsive">
+					<table class="table table-bordered table-hover synonyms-table">
+						<thead>
+							<tr>
+								<th>Word</th>
+								<th class="header-right options-width2"></th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (Synonym item in Model)
+						{
+								<tr data-id="@item.Id">
+									<td>
+										@item.Word
+									</td>
+									<td style="text-align:center;">
+										<a item-id="@item.Id" title="View" data-id="@item.Id" data-word="@item.Word" class="link-view" href="javascript:void(0);" data-toggle="modal" data-target="#synonymModal"><i class="fa fa-search"></i></a>
+										@*<a item-id="@item.Id" title="View" data-title="@item.Word" class="link-view ajax" href="@Url.Action("Index", "SynonymChild", new { SynonymId=item.Id })"><i class="fa fa-search"></i></a>*@
+										<a item-id="@item.Id" title="Edit" class="link-edit" href="javascript:void(0);"><i class="fa fa-edit"></i></a>
+										<a item-id="@item.Id" title="Delete" class="link-delete" href="#myModal" data-toggle="modal"><i class="fa fa-times"></i></a>
+									</td>
+								</tr>
+						}
+						</tbody>
+					</table>
+				</div>
+
+				@Html.PagedListPager(Model, page => Url.Action("Index", new { page, search = ViewBag.FilterSearch }))
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="synonymModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"></h4>
+				<input type="hidden" name="SynId" id="SynId" value=" " />
+				<input type="hidden" name="SynChildId" id="SynChildId" value="0" />
+			</div>
+			<div class="modal-body">
+				<div class="synonyms-child">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="filter-box-container">
+								<div class="filter-box form-synonym">
+									<input placeholder="Word" style="width:250px;" type="text" name="synonymChild" id="synonymChild" />
+									<span>&nbsp;</span>
+									<input type="button" id="addChild-btn" class="btn-common btn-submit" value="Add" />
+									<input type="button" id="cancelChild-btn" class="btn-common btn-cancel hidden" value="Cancel" />
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box">
+								<div class="box-body table-responsive">
+									<table class="table table-bordered table-hover table-synonym-child">
+										<thead>
+											<tr>
+												<th>Synonym</th>
+												<th class="header-right options-width1"></th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			@*<div class="modal-footer">
+				<button aria-hidden="true" data-dismiss="modal" class="btn btn-warning">Cancel</button>
+				<button id="con-delete-btn" data-dismiss="modal" class="btn btn-danger">Delete</button>
+			</div>*@
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<input type="hidden" value="0" id="DeleteSynonymId" />
+
+
+
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+
+<script>
+
+	var deleteSynonym = false;
+
+	; (function (j) {
+		j(function () {
+			"use strict";
+
+			var page = QueryString('page'),
+				jFormSynonym = j('.form-synonym'),
+				jSynonymId = j('#SynonymId');
+
+			page = page ? page : 1;
+			jFormSynonym.find('#page').val(page);
+
+			jFormSynonym.delegate('#add-btn', 'click', function () {
+				if (jSynonymId.val() == 0) {
+					jFormSynonym.find('form').submit();
+				} else {
+					j.ajax({
+						url: "/synonym/edit/" + jSynonymId.val(),
+						type: "POST",
+						data: {
+							id: jSynonymId.val(),
+							word: jFormSynonym.find('#word').val(),
+							page: page,
+							filterSearch: jFormSynonym.find('#FilterSearch').val()
+						}
+					}).done(function (data, textStatus, jqXHR) {
+						if (data != null) {
+							j('.synonyms-table tbody tr[data-id=' + data.Id + '] td:eq(0)').text(data.Word);
+							j('.synonyms-table tbody tr[data-id=' + data.Id + '] td:eq(1) .link-view').attr("data-word", data.Word);
+							j('#SynonymId').removeAttr("value");
+							jFormSynonym.find('#word').val("");
+							jFormSynonym.find('#cancel-btn').addClass('hidden');
+							jFormSynonym.find('#add-btn').val('Add');
+							showMessage("Word updated.");
+						}
+					});
+				}
+			});
+
+			j(".link-edit").on("click", function (event) {
+				j.ajax({
+					url: "/synonym/edit/" + j(this).attr("item-id")
+				}).done(function (data, textStatus, jqXHR) {
+					if (data != null) {
+						j('#SynonymId').val(data.Id);
+						jFormSynonym.find('#word').val(data.Word).select();
+						jFormSynonym.find('#add-btn').val('Save');
+						jFormSynonym.find('#cancel-btn').removeClass('hidden');
+						jFormSynonym.find('#cancel-btn').click(function () {
+							j(this).addClass('hidden');
+							jFormSynonym.find('#add-btn').val('Add');
+							j('#SynonymId').removeAttr("value");
+							jFormSynonym.find('#word').val("");
+						})
+					}
+				});
+			});
+
+			j('#cancelChild-btn').click(function () {
+				j(this).addClass('hidden');
+				j('#addChild-btn').val('Add');
+				j('#SynChildId').val("0");
+				j('#synonymChild').val("");
+			});
+
+			j(document).delegate(".link-edit-synonym", "click", function (event) {
+				j.ajax({
+					url: "/synonymchild/edit/" + j(this).attr("item-id")
+				}).done(function (data, textStatus, jqXHR) {
+					if (data != null) {
+						j('#SynChildId').val(data.Id);
+						j('#synonymChild').val(data.Word).select();
+						j('#addChild-btn').val('Save');
+						j('#cancelChild-btn').removeClass('hidden');
+					}
+				});
+			});
+
+			j(".link-delete").on("click", function (event) {
+				event.preventDefault();
+				j("#DeleteItemId").val(j(this).attr("item-id"));
+				deleteSynonym = false;
+			});
+
+			j(document).delegate(".link-delete-synonym", "click", function (event) {
+				event.preventDefault();
+				j("#DeleteSynonymId").val(j(this).attr("item-id"));
+				deleteSynonym = true;
+			});
+
+
+			// Delete synonym
+			j("#con-delete-btn").on("click", function (event) {
+				event.preventDefault();
+
+				if (deleteSynonym == false) {
+					var data = { 'page': GetReturnPageNumber(true), 'search': j("#FilterSearch").val() };
+					window.location.href = "/synonym/delete/" + j("#DeleteItemId").val() + "?" + EncodeQueryData(data);
+				} else {
+					j.ajax({
+						url: "/synonymchild/delete/" + j("#DeleteSynonymId").val(),
+						data: {
+							synonymId: j('#SynId').val()
+						}
+					}).done(function (data, textStatus, jqXHR) {
+						if (data != null) {
+							j('.table-synonym-child tbody').html(synonymsHTML(data));
+						} else {
+							j('.table-synonym-child tbody').html(emptyTemplate("synonyms"));
+						}
+					});
+				}
+			});
+
+			// View synonyms of a specific word
+			j('.link-view').each(function (index, el) {
+				j(el).click(function () {
+					j.ajax({
+						url: '@Url.Action("Index", "SynonymChild")',
+						data: {
+							SynonymId: j(el).data('id'),
+							search: ''
+						}
+					}).done(function (data, textStatus, jqXHR) {
+						j('#SynId').val(j(el).data('id'));
+						j('#synonymModal .modal-title').text(j(el).data('word'));
+
+						if (data != null) {
+							j('.table-synonym-child tbody').html(synonymsHTML(data));
+						} else {
+							j('.table-synonym-child tbody').html(emptyTemplate("synonyms"));
+						}
+					});
+				});
+			});
+
+			// Add synonym of a specific word
+			j('#addChild-btn').click(function () {
+				if (j('#SynChildId').val() == 0) {
+					j.ajax({
+						url: '@Url.Action("Add", "SynonymChild")',
+						type: 'POST',
+						data: {
+							SynonymId: j('#SynId').val(),
+							Word: j('#synonymChild').val()
+						}
+					}).done(function (data, textStatus, jqXHR) {
+						j('#synonymChild').val("");
+						j('.table-synonym-child tbody').html(synonymsHTML(data));
+					});
+				} else {
+					j.ajax({
+						url: '@Url.Action("Edit", "SynonymChild")',
+						type: 'POST',
+						data: {
+							Id: j('#SynChildId').val(),
+							Word: j('#synonymChild').val()
+						}
+					}).done(function (data, textStatus, jqXHR) {
+						j('#synonymChild').val("");
+						j('.table-synonym-child tbody tr[data-id=' + data.Id + '] td:eq(0)').html(data.Word);
+						j('#cancelChild-btn').click();
+					});
+				}
+			});
+		});
+
+		function synonymsHTML(synonyms) {
+			var html = '<tr data-id="{0}">' +
+						'	<td>' +
+						'		{1}' +
+						'	</td>' +
+						'	<td style="text-align:center;">' +
+						'		<a item-id="{0}" title="Edit" class="link-edit-synonym" href="javascript:void(0);"><i class="fa fa-edit"></i></a>' +
+						'		<a item-id="{0}" title="Delete" class="link-delete-synonym" href="#myModal" data-toggle="modal"><i class="fa fa-times"></i></a>' +
+						'	</td>' +
+						'</tr>';
+			var content = "";
+			for (var i = 0; i < synonyms.length; i++) {
+				content += String.format(html, synonyms[i].Id, synonyms[i].Word);
+			}
+
+			return content;
+		}
+
+		function emptyTemplate(item) {
+			return '<tr>' +
+					'	<td colspan="2">' +
+					'		No ' + item + ' found.' +
+					'	</td>' +
+					'</tr>';
+		}
+
+		function showMessage(message) {
+			var html =  '	<i class="fa fa-info"></i>' +
+						'	<button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>' +
+							message;
+
+			if (j('.synonyms-main .filter-box-container').siblings('.alert-dismissable').length < 1) {
+				j('.synonyms-main .filter-box-container').before('<div class="alert alert-info alert-dismissable">' + html + '</div>');
+			} else {
+				j('.synonyms-main .filter-box-container').siblings('.alert-dismissable').html(html);
+			}
+		}
+
+	})(jQuery);
+</script>
+
+}

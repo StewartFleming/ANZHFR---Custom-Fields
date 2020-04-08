@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Quality Locked";
+}
+<form action="Dashboard2">
+    <h2>WARNING</h2>
+
+    <p>This record is currently locked as a <a href="@ViewBag.QualityURL">Quality Audit Record</a> exists with the same ID and it has not been completed.</p>
+    <br />
+    <p>Once you have completed the Quality Record, this will automatically be unlocked.</p>
+    <br /><br />
+    <input type="submit" value="Return to Dashboard" />
+</form>

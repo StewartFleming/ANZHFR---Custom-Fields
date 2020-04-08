@@ -1,0 +1,165 @@
+﻿@using System.Configuration;
+@section styles {
+    <link href="@Url.Content("~/Content/dashboard.css")" rel="stylesheet" type="text/css" />
+
+}
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Export";
+}
+
+@using (Html.BeginForm("DoExport", "ImEx", FormMethod.Post))
+{
+    <div class="editor label-width100">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input">
+                    <div class="" style="font-size:20px;">
+                        Select Period:
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <select id="period" class="drop_down" onchange="UpdateDates(); RefreshCount();">
+                    <option value="Last30">Last 30 Days</option>
+                    <option value="Last120">Last 120 Days</option>
+                    <option value="ThisYear">This Year (2019)</option>
+                    <option value="LastYear">Last Year (2018)</option>
+                    <option value="All" selected="selected">All Records</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input">
+                    <div class="" style="font-size:20px;">
+                        Actual Dates:
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <table>
+                    <tr>
+                        <td width="40%"><div>From: </div><input class="datefield date-only" type="text" name="from_date" size="18" id="from_date" onchange="RefreshCount();" /></td>
+                        <td width="20%">&nbsp;</td>
+                        <td width="40%"><div>To: </div><input class="date-only datefield" type="text" name="to_date" size="18" id="to_date" onchange="RefreshCount();" /></td>
+                    </tr>
+                </table>
+                <br />
+                <div id="ExportCount"></div>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input">
+                    <div class="" style="font-size:20px;">
+                        Output File Format:
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <select name="fileFormat" class="">
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                    <option value="2019">2019</option>
+                    <option value="2020" selected>2020</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                <div class="alert alert-info alert-dismissable">
+                    <i class="fa fa-info"></i>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    @ViewBag.Message
+                </div>
+            }
+            <div class="filter-box">
+                <input type="submit" id="search-btn" class="btn-common btn-submit" style="padding-left: 5px;" value="Export">
+            </div>
+        </div>
+    </div>
+}
+@section scripts {
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.colorbox-min.js"></script>
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <script src="~/Scripts/tree.jquery.js"></script>
+    <script>
+        function UpdateDates() {
+            var period = $('#period').children("option:selected").val();
+            today = new Date();
+            fromdate = new Date();
+            currentyear = today.year;
+            switch (period) {
+                case "All":
+                    $('#from_date').val('');
+                    $('#to_date').val('');
+                    break;
+                case 'Last30':
+                    $('#to_date').datepicker('setDate', today);
+                    fromdate.setDate(fromdate.getDate() - 30);
+                    $('#from_date').datepicker('setDate', fromdate);
+                    break;
+                case 'Last120':
+                    $('#to_date').datepicker('setDate', today);
+                    fromdate.setDate(fromdate.getDate() - 120);
+                    $('#from_date').datepicker('setDate', fromdate);
+                    break;
+                case 'ThisYear':
+                    $('#to_date').datepicker('setDate', today);
+                    thisyear = new Date(today.getFullYear(), 0, 1, 0, 0, 0, 0);
+                    $('#from_date').datepicker('setDate', thisyear);
+                    break;
+                case 'LastYear':
+                    lyear = today.getFullYear();
+                    lastyear = new Date(lyear - 1, 11, 31, 1, 1, 1, 1);
+                    $('#to_date').datepicker('setDate', lastyear);
+                    thisyear = new Date(lyear - 1, 0, 1, 1, 1, 1, 1);
+                    $('#from_date').datepicker('setDate', thisyear);
+                    break;
+                default:
+                    $('#from_date').val('');
+                    $('#to_date').val('');
+            }
+        };
+
+        function RefreshCount() {
+            var from_date = $('#from_date').datepicker({ dateFormat: 'yy-mm-dd' }).val();
+            var to_date = $('#to_date').val();
+            $.ajax({
+                url: '@Url.Action("Export_Count/", "ImEx")',
+                type: "GET",
+                cache: false,
+                data: { 'From': from_date, 'To':to_date },
+                success: function (result) {
+                    var html2 = '';
+                    html2 += 'Export estimate: <strong>' + result + ' records</strong>.';
+                    $('#ExportCount').html(html2);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        $('.date-only').datepicker({
+            dateFormat: 'dd/mm/yy',
+            pickTime: false
+        })
+        $(document).ready(function () {
+            RefreshCount();
+        })
+        $(window).load(function () {
+            RefreshCount();
+        });
+    </script>
+}

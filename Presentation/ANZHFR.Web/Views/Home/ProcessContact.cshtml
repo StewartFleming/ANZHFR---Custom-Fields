@@ -1,0 +1,107 @@
+﻿@using System.Configuration;
+@using System.Web.Helpers;
+@{
+    ViewBag.Title = @ConfigurationManager.AppSettings["Location"] + " Hip Fracture Registry - Process Contact";
+    Layout = "~/Views/Shared/_LayoutDefault.cshtml";
+
+    var customerName = Request["RName"];
+    var customerHospital = Request["RHospital"];
+    var customerPhone = Request["RPhone"];
+    var customerEmail = Request["REmail"];
+    var customerRequest = Request["RComments"];
+    var errorMessage = "";
+    var debuggingFlag = false;
+
+    // Initialize WebMail helper
+    //WebMail.SmtpServer = ConfigurationManager.AppSettings["SMTPServer"]; // "mail.hipfracture.com.au";
+    //WebMail.SmtpPort = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]); // 8889;
+    //WebMail.UserName = ConfigurationManager.AppSettings["EmailUserName"]; // "admin@hipfracture.com.au";
+    //WebMail.Password = ConfigurationManager.AppSettings["EmailPassword"]; // "qwerty01";
+    //WebMail.From = ConfigurationManager.AppSettings["EmailFromAddress"]; // "admin@hipfracture.com.au";
+    //WebMail.EnableSsl = ConfigurationManager.AppSettings["SMTPEnableSsl"] == "true" ? true : false;
+    //WebMail.Send(to: ConfigurationManager.AppSettings["EmailToAddress"], subject: "Account request from the " + ConfigurationManager.AppSettings["Location"] + " registry.", body: customerName + " from " + customerHospital + " has applied for an account.<br>" + customerEmail + "<br>" + customerPhone + "<br>" + customerRequest);
+
+    //WebMail.SmtpServer = "mail.hipfracture.co.nz";
+    //WebMail.SmtpPort = 8889;
+    //WebMail.UserName = "admin@hipfracture.co.nz";
+    //WebMail.Password = "qwerty01";
+    //WebMail.From = "admin@hipfracture.co.nz";
+    //WebMail.EnableSsl = false;
+    //WebMail.Send(to: "admin@hipfracture.co.nz", subject: "Account request from the " + ConfigurationManager.AppSettings["Location"] + " registry.", body: customerName + " from " + customerHospital + " has applied for an account.<br>" + customerEmail + "<br>" + customerPhone + "<br>" + customerRequest);
+}
+
+<div class="page-title page-title-map stacked-title">
+    <div class="container">
+        <div class="row show-grid">
+            <div class="span12">
+                <h1>Contact @ConfigurationManager.AppSettings["Location"] Hip Fracture Registry</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- MAIN CONTENT AREA -->
+<div class="main-wrapper">
+    <div class="main-content">
+        <div class="container">
+            <div class="row show-grid">
+                <div class="span12" data-original-title="">
+                    <div class="clear_both"></div>
+                    <div class="col-wrapper">
+                        <div class="row show-grid">
+                            <!-- START LEFT-SIDE CONTACT FORM AREA -->
+                            <div class="contact-form span8">
+
+                                <p>Thanks for applying for an Demonstration account.</p>
+                                @if (errorMessage == "")
+                                {
+                                    <p>Please understand that for security reasons, we cannot provide automatic registrations.</p>
+
+                                    <p>Someone from our registrations team will contact you shortly to verify your details and setup your account.</p>
+
+                                    <p>We are open from 9am - 5PM Monday to Friday AEST but we do try to check the emails outside these hours.</p>
+
+                                    <p>Please be aware we only handle registrations. If you are after any clinical-type information, please email <a href="mailto:clinical@hipfracture.com.au">Clinical</a></p>
+
+                                    <p><h3 style="color:azure; font-weight:bold;">ANZHFR Registration Team</h3></p>
+                                    <p>-----------------Details Sent-----------------</p>
+                                    @customerName<br />
+                                    @customerHospital<br />
+                                    @customerEmail<br />
+                                    @customerPhone<br />
+                                    @customerRequest<br />
+                                }
+                                else
+                                {
+                                    <p><b>The email was <em>not</em> sent.</b></p>
+                                    <p>
+                                        Please check that the code in the ProcessRequest page has
+                                        correct settings for the SMTP server name, a user name,
+                                        a password, and a "from" address.
+                                    </p>
+                                    if (debuggingFlag)
+                                    {
+                                        <p>The following error was reported:</p>
+                                        <p><em>@errorMessage</em></p>
+                                    }
+                                }
+                            </div>
+                            <!-- END RIGHT-SIDE CONTACT FORM AREA -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MAIN CONTENT AREA: REDESIGN CUSTOM - RECENT TWEETS BAR -->
+        <div class="recent-tweets">
+            <div class="container">
+                <div class="row show-grid">
+                    <div class="span12 twitter-wrapper">
+                        <div id="nav_t"></div>
+                        <div class="tweets-slide"><ul class="slides"></ul></div>
+                        <a class="follow_img" href="#"><img alt="" src="/Content/static/img/follow.png" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

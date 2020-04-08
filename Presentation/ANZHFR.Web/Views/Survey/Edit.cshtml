@@ -1,0 +1,573 @@
+﻿@model ANZHFR.Web.Models.SurveyModel
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/Wizard.js"></script>
+}
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <div class="wizard-step">
+            @Html.HiddenFor(model => model.SurveyID)
+            @Html.HiddenFor(model => model.HospitalName)
+            @Html.HiddenFor(model => model.HospitalID)
+            @Html.HiddenFor(model => model.Year)
+
+            <h4>Please anwser the questions for the @Model.YearText financial year</h4>
+            <div class="editor label-width400 form-width400">
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        @Html.LabelFor(model => model.RoleName)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.RoleNameList)
+                        {
+                            @Html.RadioButtonFor(model => model.RoleName, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.RoleName)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Estimated number of hip fractures for the upcoming year
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.EstimatedRecords, (List<SelectListItem>)ViewBag.EstimatedRecordsList, "Choose an option")
+                        @Html.ValidationMessageFor(model => model.EstimatedRecords)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Designated major trauma centre
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.DesignatedMajorTraumaCentre, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.DesignatedMajorTraumaCentre)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wizard-step">
+            <div class="editor label-width600 form-width600">
+                <div class="col-md-12">
+                    <h4>Model of Care</h4>
+                </div>
+                <div class="col-md-12">
+                    <div class="editor-label" style="font-size: 12px !important;">
+                        *Orthogeriatric care involves a shared care arrangement of hip fracture patients between the specialties of orthopaedics and geriatric medicine. The geriatrician is involved in the pre-operative optimisation of the patient in preparation for surgery and then takes a lead in the post-operative medical care and coordinates the discharge planning process. Implicit in this role are many of the aspects of basic care including nutrition, hydration, pressure care, bowel and bladder management, and monitoring of cognition (ANZHFR Guideline 2014, p.68).
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Was there a formal orthogeriatric* service in place in 2015?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.FormalOrthogeriatricService, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.FormalOrthogeriatricService)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Model of care
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @Html.DropDownListFor(model => model.ModelOfCare, (List<SelectListItem>)ViewBag.ModelOfCareList, "Choose an option")
+                        @Html.ValidationMessageFor(model => model.ModelOfCare)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        If Other above - Please describe here.
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.ModelCareOther)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <h4>Protocols and processes</h4>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        For a suspected hip fracture, does your hospital have a protocol or pathway for access to CT / MRI for inconclusive plain imaging?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.ProtocolAccessCTMRI, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.ProtocolAccessCTMRI)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital have an agreed hip fracture pathway?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.HipFracturePathway, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.HipFracturePathway)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital have a VTE protocol?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.VTEProtocol, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.VTEProtocol)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital have a protocol or pathway for pain in hip fracture patients?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.ProtocolPain, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.ProtocolPain)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital have a planned list / planned trauma list for hip fracture patients?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.PlannedList, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.PlannedList)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Are hip fracture patients routinely offered a choice of anaesthesia?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.AFRN)
+                        {
+                            @Html.RadioButtonFor(model => model.ChoiceOfAnaesthesia, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.ChoiceOfAnaesthesia)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Are hip fracture patients offered local nerve blocks as part of pain management prior to surgery?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.AFRN)
+                        {
+                            @Html.RadioButtonFor(model => model.LocalNerveBlocks, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.LocalNerveBlocks)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Are local nerve blocks used at the time of surgery to help with postoperative pain?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.AFRN)
+                        {
+                            @Html.RadioButtonFor(model => model.LocalNerveBlocksPostoperative, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.LocalNerveBlocksPostoperative)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital offer hip fracture patients routine access to therapy services at weekends?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.TSW)
+                        {
+                            @Html.RadioButtonFor(model => model.WeekendTherapyServices, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.WeekendTherapyServices)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital routinely provide patients and/or family and carers with written information about treatment and care for a hip fracture?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.AFRN)
+                        {
+                            @Html.RadioButtonFor(model => model.WrittenCareInformation, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.WrittenCareInformation)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wizard-step">
+            <div class="editor label-width600 form-width600">
+                <div class="col-md-12">
+                    <h4>Beyond the acute hospital stay</h4>
+                </div>
+                <div class="editor-label">
+                    Access to in-patient rehabilitation?
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.OOB)
+                        {
+                            @Html.RadioButtonFor(model => model.InPatientRehabilitation, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.InPatientRehabilitation)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital have access to an early supported home based rehabilitation service (not the same as the Commonwealth funded transitional aged care program or community services)?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.SupportedHomeBasedRehabilitation, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.SupportedHomeBasedRehabilitation)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your service provide individualised *written* information to patients on discharge that includes recommendations for future falls and fracture prevention? (not the same as a copy of a discharge summary)?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.IndividualisedWrittenInformation, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.IndividualisedWrittenInformation)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your service have access to a Falls clinic (Public)?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.FallsClinicPublic, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.FallsClinicPublic)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your service have access to an osteoporosis clinic (Public) ?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.OsteoporosisClinicPublic, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.OsteoporosisClinicPublic)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your service have access to a combined falls and bone health clinic (Public)?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.CombinedFallsBoneHealthClinicPublic, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.CombinedFallsBoneHealthClinicPublic)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your service have access to an orthopaedic clinic (Public)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.OrthopaedicClinicPublic, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.OrthopaedicClinicPublic)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Do you have a fracture liaison service, whereby there is systematic identification of all fracture patients by a fracture liaison nurse, with a view to onward referrals and management of osteoporosis?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNoHip)
+                        {
+                            @Html.RadioButtonFor(model => model.FractureLiaisonService, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.FractureLiaisonService)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wizard-step">
+            <div class="editor label-width100 form-width600">
+                <div class="col-md-12">
+                    <h4>Other</h4>
+                </div>
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Does your hospital routinely collect local hip fracture data?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.CollectLocalDataList)
+                        {
+                            @Html.RadioButtonFor(model => model.CollectLocalHipFractureData, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.CollectLocalHipFractureData)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Who currently collects the data
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.RoleNameList)
+                        {
+                            @Html.RadioButtonFor(model => model.WhoCollectsData, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.WhoCollectsData)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Do you have any plans to alter any of your service provision for hip fracture patients over the next 12 months?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.ServiceChanges, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.ServiceChanges)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        If Yes, details of service changes planned.
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.ServiceChangesPlanned)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        Are there identified barriers to any proposed service redesign?
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @foreach (var item in (List<SelectListItem>)ViewBag.YesNo)
+                        {
+                            @Html.RadioButtonFor(model => model.IdentifiedBarriers, item.Text)
+                            @Html.Label(item.Text, new { @class = "radioLabel" })
+                            <br />
+                        }
+                        @Html.ValidationMessageFor(model => model.IdentifiedBarriers)
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-label">
+                        If Yes, details of identified barriers
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="editor-field">
+                        @Html.EditorFor(model => model.IdentifiedBarrierDetails)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wizard-step wizard-confirmation">
+            <h4>The survey details are now complete. Click "Submit" to submit the survey.</h4>
+            <div id="validation-summary">
+                <span>Please correct the following errors;</span>
+                @Html.ValidationSummary(true)
+            </div>
+        </div>
+        <div class="wizard-nav">
+            <div class="form-bottom margin-left100">
+                <input type="button" id="wizard-prev" value="<< Previous" class="btn btn-success btn-lg" />
+                <input type="button" id="wizard-next" value="Next >>" class="btn btn-success btn-lg" />
+                <input type="button" id="wizard-submit" value="Submit" class="btn btn-success btn-lg" />
+            </div>
+        </div>
+    </fieldset>
+}

@@ -1,0 +1,362 @@
+﻿.editor input[type=text], .editor input[type=email], .editor input[type=password], .editor input[type=number], .editor input[type=datetime], .editor textarea, .editor select {
+    border-radius: 6px;
+    font-size: 18px;
+    /*height: 46px;*/
+    line-height: 1.33;
+    padding: 7px;
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #CCCCCC;
+    border-radius: 0 !important;
+    box-shadow: none;
+    /*border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;*/
+    color: #555555;
+    display: block;
+    font-size: 14px;
+    /*height: 34px;*/
+    /*line-height: 1.42857;*/
+    /*padding: 6px 12px;*/
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+    width: 100%;
+}
+
+    .editor input[type=text]:focus, .editor input[type=email]:focus, .editor input[type=password]:focus, .editor input[type=number]:focus, .editor input[type=datetime]:focus, .editor textarea:focus {
+        border-color: #3C8DBC !important;
+        box-shadow: none;
+    }
+
+.filter-box input[type=text], .filter-box input[type=email] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 400px;
+}
+
+/*input[type=text], input[type=email], input[type=password]
+{
+    padding:10px; border:1px solid #ccc;
+    border-radius: 5px;
+    width:400px;
+}*/
+.filter-box select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+filter-box option {
+    padding: 0 10px;
+}
+
+/*textarea {
+    padding:10px; border:1px solid #ccc;
+    border-radius: 5px;
+    width:400px;
+}*/
+.clear {
+    clear: both;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.editor-label {
+    float: left;
+    clear: both;
+    color: #000;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+.editor-field {
+    float: left;
+    margin-bottom: 5px;
+}
+
+.field-validation-error {
+    color: red;
+}
+
+.input-validation-error {
+    border-color: red !important;
+}
+
+.form-bottom {
+    clear: both;
+    float: left;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.label-width100 .editor-label {
+    width: 175px;
+}
+
+.label-width150 .editor-label {
+    width: 150px;
+    text-align:right;
+    padding-right: 10px;
+}
+
+.label-patientDetails {
+    width: 155px;
+    text-align:right;
+    padding-right: 10px;
+    clear: both;
+    float: left
+}
+
+.label-Admission {
+    width: 205px;
+    text-align:right;
+    padding-right: 10px;
+    clear: both;
+    float: left
+}
+
+.label-Assessment {
+    width: 225px;
+    text-align:right;
+    padding-right: 10px;
+    clear: both;
+    float: left
+}
+
+.label-Treatment {
+    width: 235px;
+    text-align:right;
+    padding-right: 10px;
+    clear: both;
+    float: left
+}
+
+.label-Discharge {
+    width: 150px;
+    text-align:right;
+    padding-right: 10px;
+    clear: both;
+    float: left
+}
+
+.label-width400 .editor-label {
+    width: 400px;
+    text-align:right;
+    padding-right: 10px;
+}
+
+.label-width600 .editor-label {
+    width: 600px;
+    text-align:right;
+    padding-right: 10px;
+}
+
+.form-width600 input[type=text], .form-width600 input[type=email], .form-width600 input[type=password], .form-width600 input[type=number], .form-width600 input[type=datetime], .form-width600 textarea {
+    width: 600px;
+}
+
+.form-width600 select {
+    width: 600px;
+}
+
+.form-width600 textarea {
+    height: 80px;
+}
+
+.form-width400 input[type=text], .form-width400 input[type=email], .form-width400 input[type=password], .form-width400 input[type=number], .form-width400 input[type=datetime], .form-width400 textarea {
+    width: 400px;
+}
+
+.form-width400 select {
+    width: 400px;
+}
+
+.form-width400 textarea {
+    height: 80px;
+}
+
+.margin-left100 {
+    margin-left: 175px;
+}
+
+.margin-left150 {
+    margin-left: 150px;
+}
+
+.btn-common {
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: .9;
+    width: 100px;
+    font-weight: bold;
+}
+
+    .btn-common:hover {
+        opacity: 1;
+    }
+
+.btn-submit {
+    background-color: #5BB75B;
+    background-image: linear-gradient(to bottom, #62C462, #51A351);
+}
+
+.btn-cancel {
+    background-color: #FAA732;
+    background-image: linear-gradient(to bottom, #FBB450, #F89406);
+}
+
+.btn-delete {
+    background-color: #DA4F49;
+    background-image: linear-gradient(to bottom, #EE5F5B, #BD362F);
+}
+
+.btn-create {
+    background-color: #49AFCD;
+    background-image: linear-gradient(to bottom, #5BC0DE, #2F96B4);
+}
+
+.btn-blue {
+    background-color: #006DCC;
+    background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+}
+
+.btn-black {
+    background-color: #363636;
+    background-image: linear-gradient(to bottom, #444444, #222222);
+}
+
+.item-check {
+    display: none;
+}
+
+.options-width1 {
+    width: 60px;
+}
+
+.options-width2 {
+    width: 100px;
+}
+
+.buttons-box {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.filter-box {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.editor-check {
+    float: left;
+    margin-left: 10px;
+    margin-top: 12px;
+}
+
+.box form {
+    padding: 10px;
+}
+
+.pagination-container {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+    .pagination-container ul {
+        margin: 0 !important;
+    }
+
+.daily-hours {
+    width: 200px !important;
+    float: left;
+    margin-top: 10px;
+}
+
+.daily-hours-label {
+    width: 80px;
+    float: left;
+    margin-top: 20px;
+    clear: both;
+}
+
+.btn-day {
+    height: 45px !important;
+}
+
+.day-selected {
+    background-color: #ee9c9c !important;
+}
+
+.import-patients-form div.uploadify div.uploadify-button {
+    border: none;
+    border-radius: 5px;
+}
+
+.import-patients-form .btn-upload {
+    width: 120px;
+}
+
+.successful-imports {
+    color: #008000;
+}
+
+.import-errors {
+    color: #FF0000;
+}
+
+.successful-imports, .import-errors {
+    padding-left: 15px;
+}
+
+.form-report .editor-field {
+    margin-right: 15px;
+}
+
+    .form-report .editor-field .ddlReport {
+        width: 250px;
+    }
+
+    .form-report .editor-field .txtYear {
+        width: 80px;
+    }
+
+.text-warning {
+    font-size: 16px;
+    color: red;
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+.wizard-step .editor-label {
+    font-size: 20px;
+    width: 600px;
+}
+
+.wizard-step .radioLabel {
+    font-size: 16px;
+    padding-left: 10px;
+    vertical-align: top;
+}
+
+.wizard-step h4 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.forcompleteness_required {
+    border: 1px solid red !important;
+}

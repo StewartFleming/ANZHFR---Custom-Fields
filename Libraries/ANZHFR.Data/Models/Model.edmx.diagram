@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8edad0cfc23245369a1507653e0f01ab" Name="Diagram1" ZoomLevel="79">
+        <EntityTypeShape EntityType="ANZHFRModel.Anaesthesia" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Analgesia" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.AtypicalFracture" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.BoneMed" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.CognitiveState" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.ConsultantPresent" Width="1.5" PointX="7.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.DischargeDest" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Ethnic" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.FallsAssessment" Width="1.5" PointX="9.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.FractureSide" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.FractureType" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.GeriatricAssessment" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Hospital" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Indig" Width="1.5" PointX="11.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.InterOpFracture" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Operation" Width="1.5" PointX="12.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.PatientType" Width="1.5" PointX="12.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.PreAdWalk" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.PreOpMedAss" Width="1.5" PointX="13.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.PressureUlcer" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Reoperation" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Residence" Width="1.5" PointX="14.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Sex" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Surgery" Width="1.5" PointX="15.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.SurgeryDelay" Width="1.5" PointX="12.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.Survival" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.WalkingAbility" Width="1.5" PointX="16.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.WardType" Width="1.5" PointX="16.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.WeightBear" Width="1.5" PointX="16.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ANZHFRModel.User" Width="1.5" PointX="8.25" PointY="12.25" IsExpanded="true" />
+        <AssociationConnector Association="ANZHFRModel.FK_User_Hospital" />
+        <EntityTypeShape EntityType="ANZHFRModel.LengthofStay" Width="1.5" PointX="16.75" PointY="15.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Patient" Width="1.5" PointX="5.75" PointY="6.875" />
+        <AssociationConnector Association="ANZHFRModel.FK_Patient_Hospital" />
+        <EntityTypeShape EntityType="ANZHFRModel.Synonym" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ANZHFRModel.SynonymChild" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="ANZHFRModel.FK_SynonymChild_Synonym" />
+        <EntityTypeShape EntityType="ANZHFRModel.ASAGrade" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.AdmissionViaED" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Mobilisation" Width="1.5" PointX="17.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.AMTS" Width="1.5" PointX="7.75" PointY="17.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.TransferHospital" Width="1.5" PointX="18.75" PointY="9.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.AccessLevel" Width="1.5" PointX="6" PointY="3.875" />
+        <EntityTypeShape EntityType="ANZHFRModel.HospitalStatus" Width="1.5" PointX="0.75" PointY="13.875" />
+        <EntityTypeShape EntityType="ANZHFRModel.HospitalType" Width="1.5" PointX="0.75" PointY="10.875" />
+        <EntityTypeShape EntityType="ANZHFRModel.WalkingAbilityDischarge" Width="1.5" PointX="18.75" PointY="3.75" />
+        <AssociationConnector Association="ANZHFRModel.FK_User_AccessLevels" />
+        <AssociationConnector Association="ANZHFRModel.FK_Hospital_HospitalStatus" />
+        <AssociationConnector Association="ANZHFRModel.FK_Hospital_HospitalType" />
+        <EntityTypeShape EntityType="ANZHFRModel.UserPosition" Width="1.5" PointX="12.75" PointY="18.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Content" Width="1.5" PointX="18.75" PointY="14.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.DischargeResidence" Width="1.5" PointX="14.75" PointY="18.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Survey" Width="1.5" PointX="10.5" PointY="10.125" />
+        <AssociationConnector Association="ANZHFRModel.FK_Survey_Hospital" />
+        <AssociationConnector Association="ANZHFRModel.FK_Survey_User" />
+        <EntityTypeShape EntityType="ANZHFRModel.CognitiveAssessment" Width="1.5" PointX="16.5" PointY="18.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.PainAssessment" Width="1.5" PointX="18.375" PointY="18.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.PainManagement" Width="1.5" PointX="19.875" PointY="0.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Report" Width="1.5" PointX="0.75" PointY="20.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.DeleriumAssessment" Width="1.5" PointX="20.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.CalendarFollowup" Width="1.5" PointX="20.375" PointY="17.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.YearlyValidation" Width="1.5" PointX="20.375" PointY="20.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Malnutrition" Width="1.5" PointX="21.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.EQ5DAnxiety" Width="1.5" PointX="21.375" PointY="9.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.EQ5DMobility" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.EQ5DPain" Width="1.5" PointX="12.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.EQ5DSelfCare" Width="1.5" PointX="14.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.EQ5DUsualActivity" Width="1.5" PointX="16.375" PointY="21.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.FirstDayWalking" Width="1.5" PointX="22.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.Exporting" Width="1.5" PointX="8.375" PointY="20.75" />
+        <EntityTypeShape EntityType="ANZHFRModel.QualityPatient" Width="1.5" PointX="22.375" PointY="15.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

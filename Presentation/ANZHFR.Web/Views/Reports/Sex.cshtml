@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Sex - Report";
+}
+
+@section styles {
+	<link href="~/Scripts/jqPlot/jquery.jqplot.min.css" rel="stylesheet" />
+}
+
+<div id="stateChart" style="height:400px;width:800px;"></div>
+<br />
+<div id="nationalChart" style="height:400px;width:800px;"></div>
+
+@section scripts {
+	<!--[if lt IE 9]><script type="text/javascript" src="~/Scripts/jqPlot/excanvas.min.js"></script><![endif]-->
+	<script src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
+	<script src="~/Scripts/jqPlot/plugins/jqplot.barRenderer.min.js"></script>
+	<script src="~/Scripts/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+	<script src="~/Scripts/jqPlot/plugins/jqplot.pointLabels.min.js"></script>
+	<script src="~/Scripts/jqPlot/plugins/jqplot.highlighter.min.js"></script>
+
+	<script>
+		(function (j) {
+			j(function () {
+				var reportData = JSON.parse('@Html.Raw(Json.Encode(ViewBag.Report))');
+
+				drawChart(reportData.State, "stateChart");
+				drawChart(reportData.National, "nationalChart");
+			});
+
+			function drawChart(data, container) {
+				//var males = [200, 600, 700, 1000];
+				//var females = [460, 210, 690, 820];
+
+				//// Can specify a custom tick Array.
+				//// Ticks should match up one for each y value (category) in the series.
+				//var xLabels = ['State1', 'State2', 'State3', 'State4'];
+
+				var males = new Array(),
+					females = new Array(),
+					xLabels = new Array();
+
+				for (var i = 0; i < data.length; i++) {
+					males.push(data[i].Male);
+					females.push(data[i].Female);
+					xLabels.push(data[i].Location);
+				}
+
+				var plot1 = j.jqplot(container, [males, females], {
+
+					seriesDefaults: {
+						renderer: j.jqplot.BarRenderer,
+						rendererOptions: { fillToZero: true }
+					},
+
+					series: [
+						{ label: 'Male' },
+						{ label: 'Female' },
+					],
+
+					legend: {
+						show: true,
+						placement: 'insideGrid'
+					},
+
+					axes: {
+						xaxis: {
+							renderer: j.jqplot.CategoryAxisRenderer,
+							ticks: xLabels
+						},
+
+						yaxis: {
+							pad: 1,
+							//tickOptions: { formatString: '%d&nbsp;as' }
+						}
+					},
+
+					highlighter: {
+						show: true,
+						showMarker: false,
+						//tooltipFormatString: '%d',
+						formatString: '%d&nbsp;as'
+					}
+				});
+			}
+		})(jQuery);
+	</script>
+}

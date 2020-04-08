@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+
+@model List<ANZHFR.Data.Models.SynonymChild>
+@using PagedList.Mvc;
+@using ANZHFR.Data.Models;
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="filter-box-container">
+			<div class="filter-box form-synonym">
+				<input type="hidden" name="SynonymId" id="SynonymId" value="@ViewBag.SynonymId" />
+
+				@using (Html.BeginForm("add", "synonymchild", FormMethod.Post))
+				{
+					<input type="hidden" name="FilterSearch" id="FilterSearch" value="@ViewBag.FilterSearch" />
+					<input type="hidden" name="page" id="page" />
+					<input placeholder="Word" style="width:250px;" type="text" value="@ViewBag.Word" name="synonymChild" id="synonymChild" />
+					<span>&nbsp;</span>
+					<input type="button" id="addChild-btn" class="btn-common btn-submit" value="Add" />
+					<input type="button" id="cancelChild-btn" class="btn-common btn-cancel hidden" value="Cancel" />
+				}
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="box">
+			<div class="box-body table-responsive">
+				<table class="table table-bordered table-hover table-synonym-child">
+					<thead>
+						<tr>
+							<th>Synonym</th>
+							<th class="header-right options-width1"></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (SynonymChild item in Model)
+						{
+							<tr data-id="@item.Id">
+								<td>
+									@item.Word
+								</td>
+								<td style="text-align:center;">
+									<a item-id="@item.Id" title="Edit" class="link-edit" href="javascript:void(0);"><i class="fa fa-edit"></i></a>
+									<a item-id="@item.Id" title="Delete" class="link-delete" href="#myModal" data-toggle="modal"><i class="fa fa-times"></i></a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+@Html.Partial("_DeleteConfirmation")
+
+
+<script>
+	(function (j) {
+		j(function () {
+			"use strict";
+
+			j('#addChild-btn').click(function () {
+				j.ajax({
+					url: '/synonymchild/add',
+					data: {
+						synonymId: '@ViewBag.SynonymId',
+						word: j('#synonymChild').val()
+					}
+				}).done(function (data, textStatus, jqXHR) {
+					j('.table-synonym-child tbody').html(synonymsHTML(data));
+				});
+			});
+		});
+
+		function synonymsHTML(synonyms) {
+			var html = '<tr data-id="{0}">' +
+						'	<td>' +
+						'		{1}' +
+						'	</td>' +
+						'	<td style="text-align:center;">' +
+						'		<a item-id="{0}" title="Edit" class="link-edit" href="javascript:void(0);"><i class="fa fa-edit"></i></a>' +
+						'		<a item-id="{0}" title="Delete" class="link-delete" href="#myModal" data-toggle="modal"><i class="fa fa-times"></i></a>' +
+						'	</td>' +
+						'</tr>';
+			var content = "";
+			for (var i = 0; i < synonyms.length; i++) {
+				content += String.format(html, synonyms[i].Id, synonyms[i].Word);
+			}
+
+			return content;
+		}
+	})(jQuery);
+</script>

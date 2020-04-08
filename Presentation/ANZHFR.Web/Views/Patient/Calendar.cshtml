@@ -1,0 +1,75 @@
+﻿@using ANZHFR.Web.ExtensionMethods;
+@using System.Configuration;
+
+@{
+    ViewBag.Title = "Calendar for follows up at 30 and 120 days at " + ViewBag.HospitalName;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="calendar"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="alert alert-info alert-dismissable">
+                    <i class="fa fa-info"></i>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    Patients who are due for 30 day followups are
+                    <ul>
+                        <li><strong>Admitted in 2018 or earlier</strong> or </li>
+                        <li>
+                            30 days from the Start Date which is either <ul>
+                                <li><strong>Date of Admission</strong> or </li>
+                                <li><strong>Date of In Hospital Fracture</strong> or </li>
+                                <li><strong>Transfer Hospital ED Date</strong></li>
+                            </ul>
+                        </li>
+                        <li>have not got a date for <strong>30 Day Followup</strong></li>
+                        <li> have not been marked as <strong>Cannot Follow Up</strong> and </li>
+                        <li>are not listed as Deceased in the <strong>Discharge</strong> fields.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="alert alert-info alert-dismissable">
+                    <i class="fa fa-info"></i>
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                    Patients who are due for 120 day followups are
+                    <ul>
+                        <li>
+                            120 days from the start date which is either <ul>
+                                <li><strong>Date of Admission</strong> or</li>
+                                <li><strong>Date of In Hospital Fracture</strong> or </li>
+                                <li><strong>Transfer Hospital ED Date</strong></li>
+                            </ul>
+                        </li>
+                        <li>have not got a date for <strong>120 Day Followup</strong></li>
+                        <li> have not been marked as <strong>Cannot Follow Up</strong> and </li>
+                        <li>are not listed as Deceased in the <strong>Discharge</strong> fields.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_DeleteConfirmation")
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                events: {
+                    url: '/Patient/CalendarEvents',
+                    type: 'GET',
+                    error: function (error) {
+                        alert('there was an error while fetching followups!: ' + JSON.stringify(error));
+                    }
+                }
+            })
+
+        });
+    </script>
+}

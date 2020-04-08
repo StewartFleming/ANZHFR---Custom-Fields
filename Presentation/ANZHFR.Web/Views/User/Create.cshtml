@@ -1,0 +1,61 @@
+﻿@model ANZHFR.Web.Models.UserModel
+
+@{
+    ViewBag.Title = "Create new user";
+}
+
+@section scripts {
+
+    <script type="text/javascript">
+
+            /**********************************************************************/
+            jQuery("#cancel-btn").on("click", function (event) {
+                event.preventDefault();
+
+                var data = { 'page': jQuery("#Page").val(), 'search': jQuery("#FilterSearch").val() };
+                window.location.href = "/user?" + EncodeQueryData(data);
+            });
+
+
+            /******************* check user name  ***************************************************/
+            jQuery("#Email").on("change", function (event) {
+                event.preventDefault();
+
+                jQuery("#item-ok").hide();
+                RemoveErrorMessage("Email");
+                var email = jQuery("#Email").val();
+
+                if (email == "" || email == null) {
+                    return;
+                }
+
+                jQuery("#item-loading").show();
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: '/Auth/CheckUserName/',
+                    data: { 'email': email },
+                    success: function (data) {
+                        //alert(data.Result);
+                        jQuery("#item-loading").hide();
+                        if (data.Result) {
+                            jQuery("#item-ok").show();
+                        }
+                        else {
+                            jQuery("#Email").val("");
+                            SetErrorMessage("Email", email + " - aleady taken. Please try with different email");
+                        }
+                    },
+                    error: function (e) {
+                        jQuery("#item-loading").hide();
+                        //alert("Ok");
+                    }
+                });
+            });
+
+
+    </script>
+}
+
+@Html.Partial("_CreateOrUpdate", Model)
+

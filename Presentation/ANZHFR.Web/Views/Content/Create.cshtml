@@ -1,0 +1,60 @@
+﻿@model ANZHFR.Web.Models.ContentModel  
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Content</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content_ID)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content_ID)
+            @Html.ValidationMessageFor(model => model.Content_ID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content_Key)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content_Key)
+            @Html.ValidationMessageFor(model => model.Content_Key)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content_HTML)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content_HTML)
+            @Html.ValidationMessageFor(model => model.Content_HTML)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content_Text)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content_Text)
+            @Html.ValidationMessageFor(model => model.Content_Text)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

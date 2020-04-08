@@ -1,0 +1,112 @@
+﻿@using ANZHFR.Web.ExtensionMethods;
+@using System.Configuration;
+<ul class="sidebar-menu">
+    <li class="@ViewBag.MenuDashboard">
+        <a href="/home/dashboard2">
+            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+        </a>
+    </li>
+    @if (HttpContext.Current.User.GetUserInfo().AccessLevel >= (int)AccessLevel.User)
+    {
+
+        <li class="@ViewBag.MenuPatientsActive">
+            <a href="/patient/ActivePatients">
+                <i class="fa fa-user"></i> <span>Active Patients</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuPatients">
+            <a href="/patient">
+                <i class="fa fa-users"></i> <span>All Patients</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuCalendar">
+            <a href="/patient/Calendar">
+                <i class="fa fa-calendar"></i> <span>Followup Calendar</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuValidation">
+            <a href="/patient/YearlyValidation">
+                <i class="fa fa-table"></i> <span>Yearly Validation</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuTransferHospitals">
+            <a href="/transferhospital">
+                <i class="fa fa-hospital-o"></i> <span>Transfer Hospitals</span>
+            </a>
+        </li>
+        @*
+            <li class="@ViewBag.MenuSurvey">
+                 <a href="/survey">
+                     <i class="fa fa-list"></i> <span>Survey</span>
+                 </a>
+             </li>
+        *@
+        <li class="@ViewBag.MenuTraining">
+            <a href="/home/training">
+                <i class="fa fa-youtube-play"></i> <span>Training</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuImport">
+            <a href="@Url.Action("Import", "ImEx")">
+                <i class="fa fa-upload"></i> <span>Import</span>
+            </a>
+        </li>
+    }
+    @if (HttpContext.Current.User.GetUserInfo().HospitalID == 1)
+    {
+        <li class="@ViewBag.MenuQuality">
+            <a href="/Quality">
+                <i class="fa fa-check-square-o"></i> <span>Quality Audit</span>
+            </a>
+        </li>
+    }
+    @if (HttpContext.Current.User.GetUserInfo().AccessLevel >= (int)AccessLevel.HospitalAdministrator)
+    {
+        <li>
+            <a href="@Url.Action("Export", "ImEx")">
+                <i class="fa fa-download"></i> <span>Export</span>
+            </a>
+        </li>
+    }
+
+    @if (HttpContext.Current.User.GetUserInfo().AccessLevel == (int)AccessLevel.FullAccess)
+    {
+        <li class="@ViewBag.MenuHospitals">
+            <a href="/hospital">
+                <i class="fa fa-hospital-o"></i> <span>Hospitals</span>
+            </a>
+        </li>
+
+        <li class="@ViewBag.MenuUsers">
+            <a href="/user">
+                <i class="fa fa-users"></i> <span>Users</span>
+            </a>
+        </li>
+
+        <li class="@ViewBag.MenuSynonyms">
+            <a href="/synonym">
+                <i class="fa fa-font"></i> <span>Synonyms</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuContent">
+            <a href="/content/index">
+                <i class="fa fa-html5"></i> <span>Content</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuSwitch">
+            <a href="/Auth/switchhospital">
+                <i class="fa fa-html5"></i> <span>Switch Hospital</span>
+            </a>
+        </li>
+        <li class="@ViewBag.MenuSwitch">
+            <a href="/Auth/qualityrecords">
+                <i class="fa fa-html5"></i> <span>Quality Records</span>
+            </a>
+        </li>
+    }
+    <li class="@ViewBag.MenuReports">
+        <a href="/reports">
+            <i class="fa fa-bar-chart-o"></i> <span>Reports</span>
+        </a>
+    </li>
+</ul>
